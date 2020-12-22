@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles'
-import AppBar from './AppBar'
 import Container from '@material-ui/core/Container'
+import AppBar from './AppBar'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -11,11 +11,13 @@ const useStyles = makeStyles((theme) => ({
 export default function withLayout(Component) {
   return (props) => {
     const classes = useStyles()
-    return <>
-      <AppBar />
-      <Container className={classes.container} maxWidth="sm">
-        <Component {...props} />
-      </Container>
-    </>
+    return (
+      <>
+        <AppBar />
+        <Container className={classes.container} maxWidth="sm">
+          <Component {...props} />
+        </Container>
+      </>
+    )
   }
 }

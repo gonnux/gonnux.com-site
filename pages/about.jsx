@@ -1,12 +1,7 @@
-import { makeStyles } from '@material-ui/core/styles'
-import Container from '@material-ui/core/Container'
-import Grid from '@material-ui/core/Grid'
-import Link from 'next/link'
-import AppCard from '../components/AppCard'
+import parse from 'html-react-parser'
 import withLayout from '../components/withLayout'
-import parse from 'html-react-parser';
 
-export async function getStaticProps(context) {
+export async function getStaticProps() {
   const axios = require('axios')
   const marked = require('marked')
   const res = await axios.get('https://raw.githubusercontent.com/binkoni/binkoni/main/README.md')
