@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import Divider from '@material-ui/core/Divider';
+import Divider from '@material-ui/core/Divider'
 import AppBar from './AppBar'
 
 const useStyles = makeStyles((theme) => ({
