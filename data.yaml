@@ -3,7 +3,7 @@ apps:
   - name: 'jamo'
     git: 'https://github.com/gonnux/jamo'
     site: 'https://gonapps.github.io/jamo'
-    image: null
+    image: 'https://images.unsplash.com/photo-1578648693974-9438ebc063bb'
 
   - name: 'stellar-fighter'
     git: 'https://github.com/stellar-fighter/stellar-fighter'
