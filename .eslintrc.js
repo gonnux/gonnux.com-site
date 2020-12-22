@@ -1,4 +1,9 @@
 module.exports = {
+  overrides: [
+    {
+      files: ['*.jsx', '*.js'],
+    },
+  ],
   env: {
     browser: true,
     es2021: true,
@@ -22,5 +27,9 @@ module.exports = {
     'global-require': 'off',
     'react/jsx-props-no-spreading': 'off',
     'no-trailing-spaces': 'error',
+    'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
+    'no-shadow': 'off',
+    'react/destructuring-assignment': 'off',
   },
 }
