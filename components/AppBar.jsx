@@ -44,7 +44,7 @@ export default function MyAppBar() {
           <Box display="flex" justifyContent="center">
             {
               linkIcons.map((linkIcon) => (
-                <Link href={linkIcon[0]}>
+                <Link key={linkIcon[0]} href={linkIcon[0]}>
                   <IconButton color="inherit">{linkIcon[1]}</IconButton>
                 </Link>
               ))

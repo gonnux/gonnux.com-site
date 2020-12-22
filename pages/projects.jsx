@@ -22,8 +22,8 @@ function Apps(props) {
     {
       props
       .projects
-      .map((project, idx) => (
-        <Link key={idx} href={project.site ?? project.git}>
+      .map((project) => (
+        <Link key={project.name} href={project.site ?? project.git}>
           <Grid item xs={3}>
             <AppCard name={project.name} image={project.image ?? emptyImage} />
           </Grid>
