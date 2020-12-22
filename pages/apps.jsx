@@ -1,6 +1,4 @@
-import Grid from '@material-ui/core/Grid'
-import Link from 'next/link'
-import AppCard from '../components/AppCard'
+import AppList from '../components/AppList'
 import withLayout from '../components/withLayout'
 
 export async function getStaticProps() {
@@ -14,24 +12,8 @@ export async function getStaticProps() {
   }
 }
 
-const emptyImage = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
-
 function Apps(props) {
-  return (
-    <Grid container spacing={2}>
-      {
-      props
-        .apps
-        .map((app) => (
-          <Link key={app.name} href={app.site ?? app.git}>
-            <Grid item xs={3}>
-              <AppCard name={app.name} image={app.image ?? emptyImage} />
-            </Grid>
-          </Link>
-        ))
-    }
-    </Grid>
-  )
+  return (<AppList apps={props.apps} />)
 }
 
 export default withLayout(Apps)
