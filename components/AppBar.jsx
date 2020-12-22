@@ -20,6 +20,14 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
+const linkIcons = [
+  ['/apps', <AppsIcon />],
+  ['/projects', <ListAltIcon />],
+  ['/blog', <MessageIcon />],
+  ['/about', <InfoIcon />],
+  ['https://github.com/binkoni', <GitHubIcon />],
+]
+
 export default function MyAppBar() {
   const classes = useStyles()
   return (
@@ -34,31 +42,13 @@ export default function MyAppBar() {
             </Typography>
           </Box>
           <Box display="flex" justifyContent="center">
-            <Link href="/apps">
-              <IconButton color="inherit">
-                <AppsIcon />
-              </IconButton>
-            </Link>
-            <Link href="/projects">
-              <IconButton color="inherit">
-                <ListAltIcon />
-              </IconButton>
-            </Link>
-            <Link href="/blog">
-              <IconButton color="inherit">
-                <MessageIcon />
-              </IconButton>
-            </Link>
-            <Link href="/about">
-              <IconButton color="inherit">
-                <InfoIcon />
-              </IconButton>
-            </Link>
-            <Link href="https://github.com/binkoni">
-              <IconButton color="inherit">
-                <GitHubIcon />
-              </IconButton>
-            </Link>
+            {
+              linkIcons.map((linkIcon) => (
+                <Link href={linkIcon[0]}>
+                  <IconButton color="inherit">{linkIcon[1]}</IconButton>
+                </Link>
+              ))
+            }
             <IconButton color="inherit">
               <Brightness3Icon />
             </IconButton>

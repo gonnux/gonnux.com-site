@@ -21,5 +21,6 @@ module.exports = {
     semi: ['error', 'never'],
     'global-require': 'off',
     'react/jsx-props-no-spreading': 'off',
+    'no-trailing-spaces': 'error',
   },
 }
