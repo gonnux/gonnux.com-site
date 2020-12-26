@@ -1,4 +1,5 @@
 import parse from 'html-react-parser'
+import Divider from '@material-ui/core/Divider'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import IconButton from '@material-ui/core/IconButton'
 import Link from 'next/link'
@@ -43,6 +44,7 @@ function Project(props) {
           <GitHubIcon />
         </IconButton>
       </Link>
+      <Divider />
       { parse(props.markdown) }
     </>
   )
