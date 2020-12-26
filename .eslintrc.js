@@ -31,5 +31,6 @@ module.exports = {
     'react/prop-types': 'off',
     'no-shadow': 'off',
     'react/destructuring-assignment': 'off',
+    'import/prefer-default-export': 'off',
   },
 }
