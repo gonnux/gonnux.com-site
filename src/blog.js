@@ -2,24 +2,31 @@ const fs = require('fs').promises
 const path = require('path')
 const marked = require('marked')
 
+const YEAR_REGEX = /^\d+$/
+const MONTH_REGEX = /^\d\d$/
+const DAY_REGEX = /^\d\d$/
+const INDEX_REGEX = /^\d+$/
+
 async function getYears() {
-  return fs.readdir('blog')
+  return (await fs.readdir('blog'))
+    .filter((entry) => YEAR_REGEX.test(entry))
 }
 
-async function getAllYears() {
-  return getYears()
-}
+const getAllYears = getYears
 
 async function getMonths({ year }) {
-  return fs.readdir(path.resolve('blog', year))
+  return (await fs.readdir(path.resolve('blog', year)))
+    .filter((entry) => MONTH_REGEX.test(entry))
 }
 
 async function getDays({ year, month }) {
-  return fs.readdir(path.resolve('blog', year, month))
+  return (await fs.readdir(path.resolve('blog', year, month)))
+    .filter((entry) => DAY_REGEX.test(entry))
 }
 
 async function getIndices({ year, month, day }) {
-  return fs.readdir(path.resolve('blog', year, month, day))
+  return (await fs.readdir(path.resolve('blog', year, month, day)))
+    .filter((entry) => INDEX_REGEX.test(entry))
 }
 
 async function getArticle({
