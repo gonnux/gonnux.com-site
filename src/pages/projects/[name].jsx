@@ -27,7 +27,7 @@ export async function getStaticProps({ params }) {
   const project = projects.find((project) => project.name === params.name)
 
   const axios = require('axios')
-  const marked = require('marked')
+  const { marked } = require('marked')
   const res = await axios.get(project.readme)
   const markdown = marked(res.data)
 

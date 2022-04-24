@@ -1,6 +1,6 @@
 const fs = require('fs').promises
 const path = require('path')
-const marked = require('marked')
+const { marked } = require('marked')
 
 const YEAR_REGEX = /^\d+$/
 const MONTH_REGEX = /^\d\d$/

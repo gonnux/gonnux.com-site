@@ -3,7 +3,7 @@ import withLayout from '../components/withLayout'
 
 export async function getStaticProps() {
   const axios = require('axios')
-  const marked = require('marked')
+  const { marked } = require('marked')
   const res = await axios.get('https://raw.githubusercontent.com/binkoni/binkoni/main/README.md')
   const about = marked(res.data)
 
