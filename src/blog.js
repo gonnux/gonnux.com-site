@@ -6,7 +6,7 @@ const YEAR_REGEX = /^\d+$/
 const MONTH_REGEX = /^\d\d$/
 const DAY_REGEX = /^\d\d$/
 const INDEX_REGEX = /^\d+$/
-const BLOG_DIR = path.resolve(process.env.BLOG_DIR ?? 'blog') 
+const BLOG_DIR = path.resolve(process.env.BLOG_DIR ?? 'blog')
 
 async function getYears() {
   return (await fs.readdir(BLOG_DIR))
