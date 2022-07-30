@@ -4,6 +4,7 @@ import ArticleList from '../components/ArticleList'
 import AppList from '../components/AppList'
 import ProjectList from '../components/ProjectList'
 import withLayout from '../components/withLayout'
+import { DATA_YAML } from '../constants'
 
 export async function getStaticProps() {
   const yaml = require('js-yaml')
@@ -19,7 +20,7 @@ export async function getStaticProps() {
       content: cheerio.load(article.content).text(),
     }))
 
-  const { apps, projects } = yaml.safeLoad(fs.readFileSync('data.yaml', 'utf8'))
+  const { apps, projects } = yaml.safeLoad(fs.readFileSync(DATA_YAML, 'utf8'))
 
   return {
     props: { articles, apps, projects },
