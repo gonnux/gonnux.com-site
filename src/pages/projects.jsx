@@ -1,12 +1,10 @@
 import withLayout from '../components/withLayout'
 import ProjectList from '../components/ProjectList'
-import { DATA_YAML } from '../constants'
 
 export async function getStaticProps() {
-  const yaml = require('js-yaml')
-  const fs = require('fs')
+  const config = require('../config')
 
-  const { projects } = yaml.safeLoad(fs.readFileSync(DATA_YAML, 'utf8'))
+  const { projects } = config
 
   return {
     props: { projects },
