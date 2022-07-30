@@ -6,33 +6,34 @@ const YEAR_REGEX = /^\d+$/
 const MONTH_REGEX = /^\d\d$/
 const DAY_REGEX = /^\d\d$/
 const INDEX_REGEX = /^\d+$/
+const BLOG_DIR = path.resolve(process.env.BLOG_DIR) ?? 'blog'
 
 async function getYears() {
-  return (await fs.readdir('blog'))
+  return (await fs.readdir(BLOG_DIR))
     .filter((entry) => YEAR_REGEX.test(entry))
 }
 
 const getAllYears = getYears
 
 async function getMonths({ year }) {
-  return (await fs.readdir(path.resolve('blog', year)))
+  return (await fs.readdir(path.resolve(BLOG_DIR, year)))
     .filter((entry) => MONTH_REGEX.test(entry))
 }
 
 async function getDays({ year, month }) {
-  return (await fs.readdir(path.resolve('blog', year, month)))
+  return (await fs.readdir(path.resolve(BLOG_DIR, year, month)))
     .filter((entry) => DAY_REGEX.test(entry))
 }
 
 async function getIndices({ year, month, day }) {
-  return (await fs.readdir(path.resolve('blog', year, month, day)))
+  return (await fs.readdir(path.resolve(BLOG_DIR, year, month, day)))
     .filter((entry) => INDEX_REGEX.test(entry))
 }
 
 async function getArticle({
   year, month, day, index,
 }) {
-  const dir = `blog/${year}/${month}/${day}/${index}`
+  const dir = path.resolve(BLOG_DIR, year, month, day, index)
   const file = (await fs.readdir(dir))[0]
   const title = path.parse(file).name
   const content = await fs
