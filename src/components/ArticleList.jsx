@@ -13,7 +13,7 @@ function ArticleList(props) {
           <React.Fragment key={`${article.year}${article.month}${article.day}${article.index}`}>
             <Link href={`/blog/${article.year}/${article.month}/${article.day}/${article.index}`}>
               <ListItem button>
-                <ListItemText primary={article.title} secondary={article.content} />
+                <ListItemText primary={article.title} secondary={`${article.content.split('\n')[0]}...`} />
               </ListItem>
             </Link>
             { idx < props.articles.length - 1 && <Divider /> }
