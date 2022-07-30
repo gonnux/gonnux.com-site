@@ -4,12 +4,10 @@ import GitHubIcon from '@material-ui/icons/GitHub'
 import IconButton from '@material-ui/core/IconButton'
 import Link from 'next/link'
 import withLayout from '../../components/withLayout'
-import { DATA_YAML } from '../../constants'
 
 export async function getStaticPaths() {
-  const yaml = require('js-yaml')
-  const fs = require('fs')
-  const { projects } = yaml.safeLoad(fs.readFileSync(DATA_YAML, 'utf8'))
+  const config = require('../../config')
+  const { projects } = config
   return {
     paths: projects.map((project) => ({
       params: {
@@ -21,9 +19,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const yaml = require('js-yaml')
-  const fs = require('fs')
-  const { projects } = yaml.safeLoad(fs.readFileSync(DATA_YAML, 'utf8'))
+  const config = require('../../config')
+
+  const { projects } = config
 
   const project = projects.find((project) => project.name === params.name)
 
