@@ -1,4 +1,6 @@
 ---
+about:
+  markdown: 'https://raw.githubusercontent.com/binkoni/binkoni/main/README.md'
 apps:
   - name: 'jamo'
     git: 'https://github.com/gonnux/jamo'
