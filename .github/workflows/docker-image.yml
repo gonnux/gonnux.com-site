@@ -23,4 +23,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: gonnux/web-home:latest, gonnux/web-home:$(date +%s)
+          tags: gonnux/web-home:latest, gonnux/web-home:${{ github.run_number }}
