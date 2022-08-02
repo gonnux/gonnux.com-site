@@ -13,7 +13,7 @@ function ArticleList(props) {
           .articles
           .sort((a, b) => {
             const dateDiff = (b.year - a.year) * 12 + (b.month - a.month) * 31 + (b.day - a.day)
-            if (dateDiff != 0)
+            if (dateDiff !== 0)
               return dateDiff
             return b.index - a.index
           })
