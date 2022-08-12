@@ -7,7 +7,7 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
   },
-});
+})
 
 function MyApp({ Component, pageProps }) {
   // https://stackoverflow.com/a/59521406

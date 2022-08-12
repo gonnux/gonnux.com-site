@@ -1,7 +1,7 @@
 import parse from 'html-react-parser'
-import Divider from '@material-ui/core/Divider'
-import GitHubIcon from '@material-ui/icons/GitHub'
-import IconButton from '@material-ui/core/IconButton'
+import Divider from '@mui/material/Divider'
+import GitHubIcon from '@mui/icons-material/GitHub'
+import IconButton from '@mui/material/IconButton'
 import Link from 'next/link'
 import withLayout from '../../components/withLayout'
 
