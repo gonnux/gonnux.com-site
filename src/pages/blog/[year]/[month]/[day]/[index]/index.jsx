@@ -1,8 +1,8 @@
 import parse from 'html-react-parser'
-import Breadcrumbs from '@material-ui/core/Breadcrumbs'
-import Divider from '@material-ui/core/Divider'
-import Link from '@material-ui/core/Link'
-import Typography from '@material-ui/core/Typography'
+import Breadcrumbs from '@mui/material/Breadcrumbs'
+import Divider from '@mui/material/Divider'
+import Link from '@mui/material/Link'
+import Typography from '@mui/material/Typography'
 import withLayout from '../../../../../../components/withLayout'
 
 export async function getStaticPaths() {
