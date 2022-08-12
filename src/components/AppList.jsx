@@ -1,4 +1,4 @@
-import Grid from '@material-ui/core/Grid'
+import Grid from '@mui/material/Grid'
 import Link from 'next/link'
 import { EMPTY_IMAGE } from '../constants'
 import AppCard from './AppCard'
