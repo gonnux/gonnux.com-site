@@ -22,11 +22,11 @@ const useStyles = makeStyles(() => ({
 }))
 
 const linkIcons = [
-  ['/apps', <AppsIcon />],
-  ['/projects', <ListAltIcon />],
-  ['/blog', <MessageIcon />],
-  ['/about', <InfoIcon />],
-  ['https://github.com/binkoni', <GitHubIcon />],
+  ['/apps', <AppsIcon key='apps'/>],
+  ['/projects', <ListAltIcon key='projects'/>],
+  ['/blog', <MessageIcon key='blog'/>],
+  ['/about', <InfoIcon key='about'/>],
+  ['https://github.com/binkoni', <GitHubIcon key='github'/>],
 ]
 
 export default function MyAppBar() {
