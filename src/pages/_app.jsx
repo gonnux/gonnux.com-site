@@ -3,7 +3,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import '../styles/globals.css'
 
-const darkTheme = createTheme({
+const theme = createTheme({
   palette: {
     mode: 'dark',
   },
@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }) {
   }, [])
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={theme}>
 
       <CssBaseline />
       <Component {...pageProps} />
