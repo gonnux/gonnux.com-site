@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function withLayout(Component) {
-  return (props) => {
+  return function WithLayout(props) {
     const classes = useStyles()
     return (
       <>
