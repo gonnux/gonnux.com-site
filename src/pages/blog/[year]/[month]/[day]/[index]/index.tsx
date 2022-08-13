@@ -7,7 +7,7 @@ import withLayout from '../../../../../../components/withLayout'
 
 export async function getStaticPaths() {
   const blog = require('../../../../../../blog')
-  const indices = await blog.getAllIndices()
+  const indices: Array<bigint> = await blog.getAllIndices()
 
   return {
     paths: indices.map((index) => ({
@@ -17,14 +17,14 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params }: { params: object }) {
   const blog = require('../../../../../../blog')
   return {
     props: { article: await blog.getArticle(params) },
   }
 }
 
-function Article(props) {
+function Article(props: any) {
   return (
     <>
       <Typography variant="h4">
