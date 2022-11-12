@@ -3,11 +3,13 @@ import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Divider from '@mui/material/Divider'
 import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
+import { GetStaticPaths, GetStaticProps } from 'next'
+import { ParsedUrlQuery } from 'querystring'
 import withLayout from '../../../../../../components/withLayout'
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   const blog = require('../../../../../../blog')
-  const indices: Array<bigint> = await blog.getAllIndices()
+  const indices: ParsedUrlQuery[] = await blog.getAllIndices()
 
   return {
     paths: indices.map((index) => ({
@@ -17,10 +19,11 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({ params }: { params: object }) {
+export const getStaticProps: GetStaticProps = async (context) => {
   const blog = require('../../../../../../blog')
+
   return {
-    props: { article: await blog.getArticle(params) },
+    props: { article: await blog.getArticle(context.params) },
   }
 }
 
