@@ -3,23 +3,24 @@ import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Divider from '@mui/material/Divider'
 import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, PreviewData } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import withLayout from '../../../../../../components/withLayout'
+import { NextPage } from 'next'
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const blog = require('../../../../../../blog')
   const indices: ParsedUrlQuery[] = await blog.getAllIndices()
 
   return {
-    paths: indices.map((index) => ({
+    paths: indices.map((index: ParsedUrlQuery) => ({
       params: index,
     })),
     fallback: false,
   }
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext<ParsedUrlQuery, PreviewData>) => {
   const blog = require('../../../../../../blog')
 
   return {
@@ -27,7 +28,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
 }
 
-function Article(props: any) {
+const Article: NextPage = (props: any) => {
   return (
     <>
       <Typography variant="h4">
