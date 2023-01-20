@@ -1,7 +1,8 @@
 import Typography from '@mui/material/Typography'
+import { NextPage } from 'next'
 import withLayout from '../components/withLayout'
 
-function Apps() {
+const NotFoundPage: NextPage = () => {
   return (
     <Typography align="center" variant="h4">
       404 Not Found
@@ -9,4 +10,4 @@ function Apps() {
   )
 }
 
-export default withLayout(Apps)
+export default withLayout(NotFoundPage)

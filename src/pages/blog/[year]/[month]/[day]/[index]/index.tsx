@@ -7,28 +7,48 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, PreviewData } fr
 import { ParsedUrlQuery } from 'querystring'
 import withLayout from '../../../../../../components/withLayout'
 import { NextPage } from 'next'
+import blog from '../../../../../../blog'
+import { Article } from '../../../../../../blog'
+import { YearMonthDayIndex } from '../../../../../../blog'
+
+/*
+interface Params extends ParsedUrlQuery {
+  year: string,
+  month: string,
+  day: string,
+  index: string
+}
+*/
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const blog = require('../../../../../../blog')
-  const indices: ParsedUrlQuery[] = await blog.getAllIndices()
+  const yearMonthDayIndices: YearMonthDayIndex[] = await blog.getAllYearMonthDayIndices()
 
   return {
-    paths: indices.map((index: ParsedUrlQuery) => ({
-      params: index,
+    paths: yearMonthDayIndices.map((yearMonthDayIndex) => ({
+      params: {
+        year: yearMonthDayIndex.year.toString(),
+        month: yearMonthDayIndex.month.toString(),
+        day: yearMonthDayIndex.day.toString(),
+        index: yearMonthDayIndex.index.toString()
+      },
     })),
     fallback: false,
   }
 }
 
-export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext<ParsedUrlQuery, PreviewData>) => {
-  const blog = require('../../../../../../blog')
-
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const yearMonthDayIndex: YearMonthDayIndex = {
+    year: parseInt(params!.year as string),
+    month: parseInt(params!.month as string),
+    day: parseInt(params!.day as string),
+    index: parseInt(params!.index as string)
+  }
   return {
-    props: { article: await blog.getArticle(context.params) },
+    props: { article: await blog.getArticle(yearMonthDayIndex) },
   }
 }
 
-const Article: NextPage = (props: any) => {
+const ArticlePage: NextPage<{ article: Article }> = (props) => {
   return (
     <>
       <Typography variant="h4">
@@ -52,4 +72,4 @@ const Article: NextPage = (props: any) => {
   )
 }
 
-export default withLayout(Article)
+export default withLayout(ArticlePage)

@@ -2,10 +2,11 @@ import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
-import React from 'react'
+import React, { FC } from 'react'
 import Link from 'next/link'
+import { Article } from '../blog'
 
-function ArticleList(props) {
+const ArticleList: FC<{ articles: Article[] }> = (props) => {
   return (
     <List>
       {

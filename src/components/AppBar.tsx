@@ -1,5 +1,5 @@
-import { makeStyles } from '@mui/styles'
-import AppBar from '@mui/material/AppBar'
+import { styled } from '@mui/material/styles';
+import MuiAppBar from '@mui/material/AppBar'
 import AppsIcon from '@mui/icons-material/Apps'
 import Box from '@mui/material/Box'
 import Brightness3Icon from '@mui/icons-material/Brightness3'
@@ -14,14 +14,26 @@ import ListAltIcon from '@mui/icons-material/ListAlt'
 import MessageIcon from '@mui/icons-material/Message'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
+import { FC } from 'react'
 
-const useStyles = makeStyles(() => ({
-  appBar: {
+const PREFIX = 'AppBar';
+
+const classes = {
+  appBar: `${PREFIX}-appBar`
+};
+
+const StyledMuiAppBar = styled(MuiAppBar)(() => ({
+  [`&.${classes.appBar}`]: {
     flexGrow: 1,
-  },
-}))
+  }
+}));
 
-const linkIcons = [
+interface LinkIcon {
+  [0]: string,
+  [1]: any
+}
+
+const linkIcons: LinkIcon[] = [
   ['/apps', <AppsIcon key='apps'/>],
   ['/projects', <ListAltIcon key='projects'/>],
   ['/blog', <MessageIcon key='blog'/>],
@@ -29,10 +41,10 @@ const linkIcons = [
   ['https://github.com/binkoni', <GitHubIcon key='github'/>],
 ]
 
-export default function MyAppBar() {
-  const classes = useStyles()
+const AppBar: FC = () => {
+
   return (
-    <AppBar position="static" className={classes.appBar} elevation={0}>
+    <StyledMuiAppBar position="static" className={classes.appBar} elevation={0}>
       <Toolbar>
         <Container maxWidth="sm">
           <Box display="flex" justifyContent="center">
@@ -60,6 +72,7 @@ export default function MyAppBar() {
           </Box>
         </Container>
       </Toolbar>
-    </AppBar>
-  )
+    </StyledMuiAppBar>
+  );
 }
+export default AppBar

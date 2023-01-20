@@ -1,27 +1,32 @@
 import withLayout from '../../../../../components/withLayout'
 import DateList from '../../../../../components/DateList'
+import { YearMonthDay } from '../../../../../blog'
+import blog from '../../../../../blog'
+import { GetStaticPaths, NextPage } from 'next'
 
-export async function getStaticPaths() {
-  const blog = require('../../../../../blog')
-  const days = await blog.getAllDays()
+export const getStaticPaths: GetStaticPaths = async() => {
+  const yearMonthDays = await blog.getAllYearMonthDays()
   return {
-    paths: days.map((day) => ({
-      params: day,
+    paths: yearMonthDays.map((yearMonthDay) => ({
+      params: {
+        year: yearMonthDay.year.toString() ,
+        month: yearMonthDay.month.toString(), 
+        day: yearMonthDay.day.toString() 
+      }
     })),
     fallback: false,
   }
 }
 
-export async function getStaticProps({ params }) {
-  const blog = require('../../../../../blog')
-  const indices = await blog.getIndices({ year: params.year, month: params.month, day: params.day })
+export async function getStaticProps({ params }: { params: YearMonthDay }) {
+  const indices = await blog.getIndices(params)
   return {
     props: { indices },
   }
 }
 
-function Day(props) {
+const DayPage: NextPage<{ indices: number[]}> = (props) => {
   return (<DateList dates={props.indices} />)
 }
 
-export default withLayout(Day)
+export default withLayout(DayPage)

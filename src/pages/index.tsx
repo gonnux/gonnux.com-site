@@ -4,13 +4,16 @@ import ArticleList from '../components/ArticleList'
 import AppList from '../components/AppList'
 import ProjectList from '../components/ProjectList'
 import withLayout from '../components/withLayout'
+import blog, { Article } from '../blog'
+import { GetStaticProps, NextPage } from 'next'
+import { App, Project } from '../config'
+import config from '../config'
+import cheerio from 'cheerio'
 
-export async function getStaticProps() {
-  const config = require('../config')
-  const cheerio = require('cheerio')
-  const blog = require('../blog')
-  const articles = (await Promise.all(
-    (await blog.getAllIndices())
+export const getStaticProps: GetStaticProps = async() => {
+  const articles = (
+    await Promise.all(
+      (await blog.getAllYearMonthDayIndices())
       .map(async (index) => blog.getArticle(index)),
   ))
     .map((article) => ({
@@ -25,7 +28,7 @@ export async function getStaticProps() {
   }
 }
 
-function Index(props) {
+const IndexPage: NextPage<{ articles: Article[], apps: App[], projects: Project[]}> = (props) => {
   return (
     <>
       <Typography variant="h5">Apps</Typography>
@@ -40,4 +43,4 @@ function Index(props) {
   )
 }
 
-export default withLayout(Index)
+export default withLayout(IndexPage)
