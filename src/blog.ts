@@ -1,6 +1,6 @@
-const fs = require('fs').promises
-const path = require('path')
-const { marked } = require('marked')
+import { promises as fs } from 'fs'
+import path from 'path'
+import { marked } from 'marked'
 
 const YEAR_REGEX = /^\d+$/
 const MONTH_REGEX = /^\d\d$/
@@ -8,32 +8,54 @@ const DAY_REGEX = /^\d\d$/
 const INDEX_REGEX = /^\d+$/
 const BLOG_DIR = path.resolve(process.env.BLOG_DIR ?? 'blog')
 
-async function getYears() {
+async function getYears(): Promise<number[]> {
   return (await fs.readdir(BLOG_DIR))
-    .filter((entry) => YEAR_REGEX.test(entry))
+  .filter(YEAR_REGEX.test.bind(YEAR_REGEX))
+  .map(parseInt)
 }
 
 const getAllYears = getYears
 
-async function getMonths({ year }) {
-  return (await fs.readdir(path.resolve(BLOG_DIR, year)))
-    .filter((entry) => MONTH_REGEX.test(entry))
+async function getMonths({ year }: { year: number }): Promise<number[]> {
+  return (await fs.readdir(path.resolve(
+    BLOG_DIR,
+    year.toString()
+  )))
+  .filter((month) => MONTH_REGEX.test(month))
+  .map((month) => parseInt(month))
 }
 
-async function getDays({ year, month }) {
-  return (await fs.readdir(path.resolve(BLOG_DIR, year, month)))
-    .filter((entry) => DAY_REGEX.test(entry))
+async function getDays({ year , month }: YearMonth): Promise<number[]> {
+  return (await fs.readdir(path.resolve(
+    BLOG_DIR,
+    year.toString(),
+    month.toString().padStart(2, '0')
+  )))
+  .filter((day) => DAY_REGEX.test(day))
+  .map((day) => parseInt(day))
 }
 
-async function getIndices({ year, month, day }) {
-  return (await fs.readdir(path.resolve(BLOG_DIR, year, month, day)))
-    .filter((entry) => INDEX_REGEX.test(entry))
+async function getIndices({ year, month, day }: YearMonthDay): Promise<number[]> {
+  return (await fs.readdir(path.resolve(
+    BLOG_DIR,
+    year.toString(),
+    month.toString().padStart(2, '0'),
+    day.toString().padStart(2, '0')
+  )))
+  .filter((index) => INDEX_REGEX.test(index))
+  .map((index) => parseInt(index))
 }
 
 async function getArticle({
   year, month, day, index,
-}) {
-  const dir = path.resolve(BLOG_DIR, year, month, day, index)
+}: YearMonthDayIndex): Promise<Article> {
+  const dir = path.resolve(
+    BLOG_DIR,
+    year.toString(),
+    month.toString().padStart(2, '0'),
+    day.toString().padStart(2, '0'),
+    index.toString()
+  )
   const file = (await fs.readdir(dir))[0]
   const title = path.parse(file).name
   const content = await fs
@@ -49,48 +71,75 @@ async function getArticle({
   }
 }
 
-async function getAllMonths() {
+async function getAllYearMonths(): Promise<YearMonth[]> {
   const years = await getAllYears()
   const months = (await Promise.all(
     years.map(async (year) => (await getMonths({ year })).map((month) => ({ year, month }))),
-  )).flat()
+  ))
+  .flat()
   return months
 }
 
-async function getAllDays() {
-  const months = await getAllMonths()
+async function getAllYearMonthDays(): Promise<YearMonthDay[]> {
+  const yearMonths = await getAllYearMonths()
   const days = (await Promise.all(
-    months.map(async (month) => (
-      await getDays({ year: month.year, month: month.month }))
-      .map((day) => ({ year: month.year, month: month.month, day }))),
+    yearMonths.map(async (yearMonth) => (
+      await getDays(yearMonth))
+      .map((day) => ({ ...yearMonth, day }))),
   )).flat()
   return days
 }
 
-async function getAllIndices() {
-  const days = await getAllDays()
+async function getAllYearMonthDayIndices(): Promise<YearMonthDayIndex[]> {
+  const days = await getAllYearMonthDays()
   const indices = (await Promise.all(
-    days.map(async (day) => (await getIndices({ year: day.year, month: day.month, day: day.day }))
+    days
+    .map(async (day) => (await getIndices(day))
       .map((index) => ({
-        year: day.year, month: day.month, day: day.day, index,
+        ...day, index,
       }))),
   )).flat()
   return indices
 }
 
-async function getLatestArticles(count) {
+// NOT IMPLEMENTED
+async function getLatestArticles(count: number) {
   return count
 }
 
-module.exports = {
+export interface Article {
+  year: number,
+  month: number,
+  day: number,
+  index: number,
+  title: string,
+  content: string
+}
+
+export interface YearMonth {
+  year: number,
+  month: number
+}
+
+export interface YearMonthDay extends YearMonth {
+  day: number 
+}
+
+export interface YearMonthDayIndex extends YearMonthDay {
+  index: number
+}
+
+const Blog = {
   getYears,
   getMonths,
   getDays,
   getIndices,
   getArticle,
   getAllYears,
-  getAllMonths,
-  getAllDays,
-  getAllIndices,
+  getAllYearMonths,
+  getAllYearMonthDays,
+  getAllYearMonthDayIndices,
   getLatestArticles,
 }
+
+export default Blog

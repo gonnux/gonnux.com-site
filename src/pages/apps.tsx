@@ -1,17 +1,17 @@
+import { GetStaticProps, NextPage } from 'next'
 import AppList from '../components/AppList'
 import withLayout from '../components/withLayout'
+import config, { App } from '../config'
 
-export async function getStaticProps() {
-  const config = require('../config')
 
+export const getStaticProps: GetStaticProps<{apps: App[]}> = () => {
   const { apps } = config
-
   return {
     props: { apps },
   }
 }
 
-function Apps(props) {
+const Apps: NextPage<{ apps: App[] }> = (props) => {
   return (<AppList apps={props.apps} />)
 }
 
