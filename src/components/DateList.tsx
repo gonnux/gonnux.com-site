@@ -2,11 +2,11 @@ import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
-import React from 'react'
+import React, { FC } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-function DateList(props) {
+const DateList: FC<{ dates: number[] }> = (props) => {
   const router = useRouter()
   return (
     <List>

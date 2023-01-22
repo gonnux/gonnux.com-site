@@ -1,9 +1,11 @@
 import Grid from '@mui/material/Grid'
 import Link from 'next/link'
+import { FC } from 'react'
+import { Project } from '../config'
 import { EMPTY_IMAGE } from '../constants'
 import AppCard from './AppCard'
 
-function ProjectList(props) {
+const ProjectList: FC<{ projects: Project[] }> = (props) => {
   return (
     <Grid container spacing={2}>
       {
