@@ -1,29 +1,29 @@
 import withLayout from '../../../components/withLayout'
 import DateList from '../../../components/DateList'
+import blog from '../../../blog'
+import { GetStaticPaths, GetStaticProps } from 'next'
 
-export async function getStaticPaths() {
-  const blog = require('../../../blog')
+export const getStaticPaths: GetStaticPaths = async () => {
   const years = await blog.getAllYears()
 
   return {
     paths: years.map((year) => ({
       params: {
-        year,
+        year: year.toString(),
       },
     })),
     fallback: false,
   }
 }
 
-export async function getStaticProps({ params }) {
-  const blog = require('../../../blog')
-  const months = await blog.getMonths({ year: params.year })
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const months = await blog.getMonths({ year: parseInt(params!.year as string) })
   return {
     props: { months },
   }
 }
 
-function Year(props) {
+function Year(props: { months: number[] } ) {
   return (<DateList dates={props.months} />)
 }
 
