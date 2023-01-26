@@ -3,12 +3,12 @@ import Typography from '@mui/material/Typography'
 import ArticleList from '../components/ArticleList'
 import AppList from '../components/AppList'
 import ProjectList from '../components/ProjectList'
-import withLayout from '../components/withLayout'
 import blog, { Article } from '../blog'
-import { GetStaticProps, NextPage } from 'next'
+import { GetStaticProps, NextLayoutPage } from 'next'
 import { App, Project } from '../config'
 import config from '../config'
 import cheerio from 'cheerio'
+import Layout from '../components/Layout'
 
 export const getStaticProps: GetStaticProps = async() => {
   const articles = (
@@ -28,7 +28,7 @@ export const getStaticProps: GetStaticProps = async() => {
   }
 }
 
-const IndexPage: NextPage<{ articles: Article[], apps: App[], projects: Project[]}> = (props) => {
+const IndexPage: NextLayoutPage<{ articles: Article[], apps: App[], projects: Project[]}> = (props) => {
   return (
     <>
       <Typography variant="h5">Apps</Typography>
@@ -43,4 +43,10 @@ const IndexPage: NextPage<{ articles: Article[], apps: App[], projects: Project[
   )
 }
 
-export default withLayout(IndexPage)
+IndexPage.getLayout = (page) => {
+  return (
+    <Layout>{page}</Layout>
+  )
+}
+
+export default IndexPage
