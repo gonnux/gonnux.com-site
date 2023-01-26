@@ -8,7 +8,7 @@ import type {
 import type { AppProps } from 'next/app'
 
 declare module 'next' {
-  type GetLayout = (page: ReactNode) => ReactNode
+  type GetLayout<P> = (page: ReactNode, pageProps: P) => ReactNode
   type NextLayoutComponentType<C extends BaseContext = NextPageContext, IP = {}, P = {}> = NextComponentType<
     C,
     IP,
@@ -17,7 +17,7 @@ declare module 'next' {
     getLayout?: GetLayout
   }
   type NextLayoutPage<P = {}, IP = P> = NextPage<P, IP> & {
-    getLayout?: GetLayout
+    getLayout?: GetLayout<P>
   }
 }
 
