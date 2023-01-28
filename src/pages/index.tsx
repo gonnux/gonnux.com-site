@@ -5,7 +5,7 @@ import AppList from '../components/AppList'
 import ProjectList from '../components/ProjectList'
 import Layout from '../components/Layout'
 import { Article } from '../blog'
-import { GetStaticProps, NextPage } from 'next'
+import { GetStaticProps, NextLayoutPage } from 'next'
 import { App, Project } from '../config'
 
 export const getStaticProps: GetStaticProps = async() => {
