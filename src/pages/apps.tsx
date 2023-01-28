@@ -1,6 +1,6 @@
-import { GetStaticProps, NextPage } from 'next'
+import { GetStaticProps, NextLayoutPage } from 'next'
 import AppList from '../components/AppList'
-import withLayout from '../components/withLayout'
+import Layout from '../components/Layout'
 import { App } from '../config'
 
 export const getStaticProps: GetStaticProps<{apps: App[]}> = async() => {
@@ -11,8 +11,10 @@ export const getStaticProps: GetStaticProps<{apps: App[]}> = async() => {
   }
 }
 
-const Apps: NextPage<{ apps: App[] }> = (props) => {
+const AppsPage: NextLayoutPage<{ apps: App[] }> = (props) => {
   return (<AppList apps={props.apps} />)
 }
 
-export default withLayout(Apps)
+AppsPage.getLayout = (page) => (<Layout>{page}</Layout>)
+
+export default AppsPage

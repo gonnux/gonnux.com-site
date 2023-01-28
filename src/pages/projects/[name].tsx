@@ -3,9 +3,9 @@ import Divider from '@mui/material/Divider'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import IconButton from '@mui/material/IconButton'
 import Link from 'next/link'
-import withLayout from '../../components/withLayout'
+import Layout from '../../components/Layout'
 import { Project } from '../../config'
-import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
+import { GetStaticPaths, GetStaticProps, NextLayoutPage } from 'next'
 
 export const getStaticPaths: GetStaticPaths = async () => {
 
@@ -39,7 +39,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
 }
 
-const Project: NextPage<{ project: Project, markdown: string }> = (props) => {
+const ProjectPage: NextLayoutPage<{ project: Project, markdown: string }> = (props) => {
   return (
     <>
       <Link href={props.project.git}>
@@ -53,4 +53,6 @@ const Project: NextPage<{ project: Project, markdown: string }> = (props) => {
   )
 }
 
-export default withLayout(Project)
+ProjectPage.getLayout = (page) => (<Layout>{page}</Layout>)
+
+export default ProjectPage

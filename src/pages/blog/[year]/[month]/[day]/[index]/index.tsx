@@ -5,8 +5,8 @@ import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, PreviewData } from 'next'
 import { ParsedUrlQuery } from 'querystring'
-import withLayout from '../../../../../../components/withLayout'
-import { NextPage } from 'next'
+import Layout from '../../../../../../components/Layout'
+import { NextLayoutPage } from 'next'
 import { Article } from '../../../../../../blog'
 import { YearMonthDayIndex } from '../../../../../../blog'
 
@@ -54,7 +54,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
 }
 
-const ArticlePage: NextPage<{ article: Article }> = (props) => {
+const ArticlePage: NextLayoutPage<{ article: Article }> = (props) => {
   return (
     <>
       <Typography variant="h4">
@@ -78,4 +78,6 @@ const ArticlePage: NextPage<{ article: Article }> = (props) => {
   )
 }
 
-export default withLayout(ArticlePage)
+ArticlePage.getLayout = (page) => (<Layout>{page}</Layout>)
+
+export default ArticlePage

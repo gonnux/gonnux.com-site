@@ -1,7 +1,7 @@
-import withLayout from '../components/withLayout'
+import Layout from '../components/Layout'
 import ProjectList from '../components/ProjectList'
 import { Project } from '../config'
-import { GetStaticProps, NextPage } from 'next'
+import { GetStaticProps, NextLayoutPage } from 'next'
 
 export const getStaticProps: GetStaticProps = async() => {
 
@@ -13,8 +13,10 @@ export const getStaticProps: GetStaticProps = async() => {
   }
 }
 
-const ProjectsPage: NextPage<{ projects: Project[] }> = (props) => {
+const ProjectsPage: NextLayoutPage<{ projects: Project[] }> = (props) => {
   return (<ProjectList projects={props.projects} />)
 }
 
-export default withLayout(ProjectsPage)
+ProjectsPage.getLayout = (page) => (<Layout>{page}</Layout>)
+
+export default ProjectsPage
