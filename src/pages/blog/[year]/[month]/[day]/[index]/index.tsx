@@ -7,7 +7,6 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, PreviewData } fr
 import { ParsedUrlQuery } from 'querystring'
 import withLayout from '../../../../../../components/withLayout'
 import { NextPage } from 'next'
-import blog from '../../../../../../blog'
 import { Article } from '../../../../../../blog'
 import { YearMonthDayIndex } from '../../../../../../blog'
 
@@ -21,6 +20,9 @@ interface Params extends ParsedUrlQuery {
 */
 
 export const getStaticPaths: GetStaticPaths = async () => {
+
+  const { default: blog } = await import('../../../../../../blog')
+
   const yearMonthDayIndices: YearMonthDayIndex[] = await blog.getAllYearMonthDayIndices()
 
   return {
@@ -37,12 +39,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+
+  const { default: blog } = await import('../../../../../../blog')
+
   const yearMonthDayIndex: YearMonthDayIndex = {
     year: parseInt(params!.year as string),
     month: parseInt(params!.month as string),
     day: parseInt(params!.day as string),
     index: parseInt(params!.index as string)
   }
+
   return {
     props: { article: await blog.getArticle(yearMonthDayIndex) },
   }

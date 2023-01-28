@@ -1,9 +1,10 @@
 import withLayout from '../../../components/withLayout'
 import DateList from '../../../components/DateList'
-import blog from '../../../blog'
 import { GetStaticPaths, GetStaticProps } from 'next'
 
 export const getStaticPaths: GetStaticPaths = async () => {
+
+  const { default: blog } = await import('../../../blog')
   const years = await blog.getAllYears()
 
   return {
@@ -17,6 +18,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { default: blog } = await import('../../../blog')
   const months = await blog.getMonths({ year: parseInt(params!.year as string) })
   return {
     props: { months },

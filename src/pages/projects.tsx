@@ -1,11 +1,13 @@
 import withLayout from '../components/withLayout'
 import ProjectList from '../components/ProjectList'
-import config from '../config'
 import { Project } from '../config'
 import { GetStaticProps, NextPage } from 'next'
 
-export const getStaticProps: GetStaticProps = () => {
+export const getStaticProps: GetStaticProps = async() => {
+
+  const { default: config } = await import('../config')
   const { projects } = config
+
   return {
     props: { projects },
   }
