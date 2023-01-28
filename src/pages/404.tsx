@@ -1,8 +1,8 @@
 import Typography from '@mui/material/Typography'
-import { NextPage } from 'next'
-import withLayout from '../components/withLayout'
+import { NextLayoutPage } from 'next'
+import Layout from '../components/Layout'
 
-const NotFoundPage: NextPage = () => {
+const NotFoundPage: NextLayoutPage = () => {
   return (
     <Typography align="center" variant="h4">
       404 Not Found
@@ -10,4 +10,6 @@ const NotFoundPage: NextPage = () => {
   )
 }
 
-export default withLayout(NotFoundPage)
+NotFoundPage.getLayout = (page) => (<Layout>{page}</Layout>)
+
+export default NotFoundPage

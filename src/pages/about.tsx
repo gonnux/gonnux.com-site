@@ -1,6 +1,6 @@
 import parse from 'html-react-parser'
-import withLayout from '../components/withLayout'
-import { GetStaticProps, NextPage } from 'next'
+import Layout from '../components/Layout'
+import { GetStaticProps, NextLayoutPage } from 'next'
 
 export const getStaticProps: GetStaticProps<{ about: string}> = async () => {
   const { default: config } = await import('../config')
@@ -14,8 +14,10 @@ export const getStaticProps: GetStaticProps<{ about: string}> = async () => {
   }
 }
 
-const AboutPage: NextPage<{ about: string }> = (props) => {
+const AboutPage: NextLayoutPage<{ about: string }> = (props) => {
   return parse(props.about) as JSX.Element
 }
 
-export default withLayout(AboutPage)
+AboutPage.getLayout = (page) => (<Layout>{page}</Layout>)
+
+export default AboutPage
