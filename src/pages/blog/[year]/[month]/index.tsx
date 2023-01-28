@@ -1,6 +1,6 @@
-import withLayout from '../../../../components/withLayout'
+import Layout from '../../../../components/Layout'
 import DateList from '../../../../components/DateList'
-import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
+import { GetStaticPaths, GetStaticProps, NextLayoutPage } from 'next'
 
 export const getStaticPaths: GetStaticPaths = async () => {
 
@@ -33,8 +33,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
 }
 
-const MonthPage: NextPage<{ days: number[] }> = (props) => {
+const MonthPage: NextLayoutPage<{ days: number[] }> = (props) => {
   return (<DateList dates={props.days} />)
 }
 
-export default withLayout(MonthPage)
+MonthPage.getLayout = (page) => (<Layout>{page}</Layout>)
+
+export default MonthPage

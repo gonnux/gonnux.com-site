@@ -1,7 +1,7 @@
 import ArticleList from '../components/ArticleList'
-import withLayout from '../components/withLayout'
+import Layout from '../components/Layout'
 import { Article } from '../blog'
-import { GetStaticProps, NextPage } from 'next'
+import { GetStaticProps, NextLayoutPage } from 'next'
 
 export const getStaticProps: GetStaticProps = async () => {
 
@@ -22,8 +22,10 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-const Blog: NextPage<{ articles: [Article]}> = (props) => {
+const BlogPage: NextLayoutPage<{ articles: [Article]}> = (props) => {
   return (<ArticleList articles={props.articles} />)
 }
 
-export default withLayout(Blog)
+BlogPage.getLayout = (page) => (<Layout>{page}</Layout>)
+
+export default BlogPage

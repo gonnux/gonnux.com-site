@@ -46,10 +46,6 @@ const IndexPage: NextLayoutPage<{ articles: Article[], apps: App[], projects: Pr
   )
 }
 
-IndexPage.getLayout = (page, pageProps) => {
-  return (
-    <Layout>{page}</Layout>
-  )
-}
+IndexPage.getLayout = (page) => (<Layout>{page}</Layout>)
 
 export default IndexPage
