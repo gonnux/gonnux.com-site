@@ -4,13 +4,14 @@ import GitHubIcon from '@mui/icons-material/GitHub'
 import IconButton from '@mui/material/IconButton'
 import Link from 'next/link'
 import withLayout from '../../components/withLayout'
-import config, { Project } from '../../config'
+import { Project } from '../../config'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
-import axios from 'axios'
-import { marked } from 'marked'
 
-export const getStaticPaths: GetStaticPaths = () => {
+export const getStaticPaths: GetStaticPaths = async () => {
+
+  const { default: config } = await import('../../config')
   const { projects } = config
+
   return {
     paths: projects.map((project) => ({
       params: {
@@ -22,7 +23,11 @@ export const getStaticPaths: GetStaticPaths = () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+
+  const { default: config } = await import('../../config')
   const { projects } = config
+  const { default: axios } = await import('axios')
+  const { marked } = await import('marked')
 
   const project = projects.find((project) => project.name === params!.name)
 

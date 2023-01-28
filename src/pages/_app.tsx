@@ -5,7 +5,7 @@ import { AppContext, AppInitialProps, AppLayoutProps, AppProps } from 'next/app'
 import '../styles/globals.css'
 import { GetLayout, NextComponentType, NextLayoutPage } from 'next'
 
-const defaultGetLayout: GetLayout = (page: ReactNode): ReactNode => page
+const defaultGetLayout: GetLayout<any> = (page: ReactNode): ReactNode => page
 
 const theme = createTheme({
   palette: {
@@ -18,7 +18,7 @@ const MyApp: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
   pageProps,
 }: AppLayoutProps) => {
 
-  const getLayout = Component.getLayout ?? defaultGetLayout;
+  const getLayout = Component.getLayout ?? defaultGetLayout
 
   // https://stackoverflow.com/a/59521406
   React.useEffect(() => {

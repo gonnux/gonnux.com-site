@@ -3,23 +3,26 @@ import Typography from '@mui/material/Typography'
 import ArticleList from '../components/ArticleList'
 import AppList from '../components/AppList'
 import ProjectList from '../components/ProjectList'
-import blog, { Article } from '../blog'
+import Layout from '../components/Layout'
+import { Article } from '../blog'
 import { GetStaticProps, NextLayoutPage } from 'next'
 import { App, Project } from '../config'
-import config from '../config'
-import cheerio from 'cheerio'
-import Layout from '../components/Layout'
 
 export const getStaticProps: GetStaticProps = async() => {
+
+  const { default: blog } = await import('../blog')
+  const { default: cheerio } = await import('cheerio')
+  const { default: config } = await import('../config')
+
   const articles = (
     await Promise.all(
       (await blog.getAllYearMonthDayIndices())
       .map(async (index) => blog.getArticle(index)),
   ))
-    .map((article) => ({
-      ...article,
-      content: cheerio.load(article.content).text(),
-    }))
+  .map((article) => ({
+    ...article,
+    content: cheerio.load(article.content).text(),
+  }))
 
   const { apps, projects } = config
 
