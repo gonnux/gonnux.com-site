@@ -1,11 +1,13 @@
 import withLayout from '../../../../components/withLayout'
 import DateList from '../../../../components/DateList'
-import blog from '../../../../blog'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 
-
 export const getStaticPaths: GetStaticPaths = async () => {
+
+  const { default: blog } = await import('../../../../blog')
+
   const yearMonths = await blog.getAllYearMonths()
+
   return {
     paths: yearMonths.map((yearMonth) => ({
       params: {
@@ -18,10 +20,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+
+  const { default: blog } = await import('../../../../blog')
+
   const days = await blog.getDays({
     year: parseInt(params!.year as string),
     month: parseInt(params!.month as string)
   })
+
   return {
     props: { days },
   }
