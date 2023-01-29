@@ -29,9 +29,7 @@ const Root = styled('div')((
 
 const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   const githubRemoteUrl = process.env.NEXT_PUBLIC_GITHUB_REMOTE_URL
-  const gitBranch = process.env.NEXT_PUBLIC_GIT_BRANCH
   const gitCommitHash = process.env.NEXT_PUBLIC_GIT_COMMIT_HASH
-  const githubBranchUrl = `${githubRemoteUrl}/branch/${gitBranch}`
   const githubCommitUrl = `${githubRemoteUrl}/commit/${gitCommitHash}`
 
   return (
@@ -44,10 +42,6 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
       <Divider />
       <Box display="flex" justifyContent="center">
         <Typography>
-          <Link href={ githubBranchUrl }>
-            { gitBranch }
-          </Link>
-          &nbsp;
           <Link href={ githubCommitUrl }>
             { gitCommitHash }
           </Link>
