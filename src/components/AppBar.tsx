@@ -14,7 +14,9 @@ import ListAltIcon from '@mui/icons-material/ListAlt'
 import MessageIcon from '@mui/icons-material/Message'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import { FC } from 'react'
+import { FC, useState } from 'react'
+import { colorModeState } from '../states/colorMode'
+import { useRecoilState } from 'recoil'
 
 const PREFIX = 'AppBar';
 
@@ -41,6 +43,18 @@ const linkIcons: LinkIcon[] = [
   ['https://github.com/binkoni', <GitHubIcon key='github'/>],
 ]
 
+const ColorModeButton: FC = () => {
+  const [colorMode, setColorMode] = useRecoilState(colorModeState)
+  return (<>
+    <IconButton
+      color="inherit"
+      onClick={() => setColorMode(colorMode === 'light' ? 'dark' : 'light') }
+    >
+      { colorMode === 'light' ? <Brightness3Icon /> : <Brightness5Icon /> }
+    </IconButton>
+  </>)
+}
+
 const AppBar: FC = () => {
 
   return (
@@ -63,16 +77,12 @@ const AppBar: FC = () => {
                 </Link>
               ))
             }
-            <IconButton color="inherit">
-              <Brightness3Icon />
-            </IconButton>
-            <IconButton color="inherit">
-              <Brightness5Icon />
-            </IconButton>
+            <ColorModeButton />
           </Box>
         </Container>
       </Toolbar>
     </StyledMuiAppBar>
   );
 }
+
 export default AppBar
