@@ -4,6 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { AppContext, AppInitialProps, AppLayoutProps, AppProps } from 'next/app'
 import '../styles/globals.css'
 import { GetLayout, NextComponentType, NextLayoutPage } from 'next'
+import Script from 'next/script'
 
 const defaultGetLayout: GetLayout<any> = (page: ReactNode): ReactNode => page
 
@@ -27,10 +28,25 @@ const MyApp: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
   }, [])
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      { getLayout(<Component {...pageProps} />) }
-    </ThemeProvider>
+    <>
+      <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-NQHQBR591P"/>
+      <Script
+        id='google-analytics'
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-NQHQBR591P');
+          `
+        }}
+      />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        { getLayout(<Component {...pageProps} />) }
+      </ThemeProvider>
+    </>
   )
 }
 
