@@ -11,7 +11,7 @@ const BLOG_DIR = path.resolve(process.env.BLOG_DIR ?? 'blog')
 async function getYears(): Promise<number[]> {
   return (await fs.readdir(BLOG_DIR))
   .filter(YEAR_REGEX.test.bind(YEAR_REGEX))
-  .map(parseInt)
+  .map((year) => parseInt(year))
 }
 
 const getAllYears = getYears
