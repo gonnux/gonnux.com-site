@@ -13,9 +13,11 @@ const ArticleList: FC<{ articles: Article[] }> = (props) => {
         props
           .articles
           .sort((a, b) => {
-            const dateDiff = (b.year - a.year) * 12 + (b.month - a.month) * 31 + (b.day - a.day)
-            if (dateDiff !== 0) return dateDiff
-            return b.index - a.index
+            if (a.year !== b.year) return b.year - a.year
+            if (a.month !== b.month) return b.month - a.month
+            if (a.day !== b.day) return b.day - a.day
+            if (a.index !== b.index) return b.index - a.index
+            return 0
           })
           .map((article, idx) => (
             <React.Fragment key={`${article.year}${article.month}${article.day}${article.index}`}>
