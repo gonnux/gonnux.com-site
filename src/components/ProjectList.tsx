@@ -13,7 +13,7 @@ const ProjectList: FC<{ projects: Project[] }> = (props) => {
         .projects
         .map((project) => (
           <Link key={project.name} href={`/projects/${project.name}`}>
-            <Grid item xs={3}>
+            <Grid item xs={3} md={2}>
               <AppCard name={project.name} image={project.image ?? EMPTY_IMAGE} />
             </Grid>
           </Link>
