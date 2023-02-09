@@ -12,7 +12,7 @@ import 'highlight.js/styles/default.css'
 
 const defaultGetLayout: GetLayout<any> = (page: ReactNode): ReactNode => page
 
-const MyThemeProvider: FC<{}> = (props) => {
+const MyThemeProvider: FC<{children: ReactNode}> = (props) => {
   const colorMode = useRecoilValue(colorModeState)
 
   const theme = createTheme({
