@@ -2,9 +2,10 @@ import React, { ReactNode } from 'react'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { AppContext, AppInitialProps, AppLayoutProps, AppProps } from 'next/app'
-import '../styles/globals.css'
 import { GetLayout, NextComponentType, NextLayoutPage } from 'next'
 import Script from 'next/script'
+import '../styles/globals.css'
+import 'highlight.js/styles/default.css'
 
 const defaultGetLayout: GetLayout<any> = (page: ReactNode): ReactNode => page
 
