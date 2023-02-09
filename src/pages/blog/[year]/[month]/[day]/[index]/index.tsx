@@ -9,6 +9,8 @@ import Layout from '../../../../../../components/Layout'
 import { NextLayoutPage } from 'next'
 import { Article } from '../../../../../../blog'
 import { YearMonthDayIndex } from '../../../../../../blog'
+import { DiscussionEmbed } from "disqus-react"
+
 
 /*
 interface Params extends ParsedUrlQuery {
@@ -55,6 +57,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 }
 
 const ArticlePage: NextLayoutPage<{ article: Article }> = (props) => {
+  const disqusShortName = 'gonnux'
+  const disqusConfig = {
+    url: `https://gonnux.com/blog/${props.article.year}/${props.article.month}/${props.article.day}/${props.article.index}`,
+    identifier: `${props.article.year}/${props.article.month}/${props.article.day}/${props.article.index}`,
+    title: props.article.title
+  }
+
   return (
     <>
       <Typography variant="h4">
@@ -74,6 +83,11 @@ const ArticlePage: NextLayoutPage<{ article: Article }> = (props) => {
       </Breadcrumbs>
       <Divider />
       { parse(props.article.content) }
+      <Divider />
+      <DiscussionEmbed
+        shortname={ disqusShortName }
+        config={ disqusConfig }
+      />
     </>
   )
 }
