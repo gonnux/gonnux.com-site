@@ -1,26 +1,40 @@
-import React, { ReactNode } from 'react'
+import React, { FC, ReactNode } from 'react'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { AppContext, AppInitialProps, AppLayoutProps, AppProps } from 'next/app'
 import { GetLayout, NextComponentType, NextLayoutPage } from 'next'
 import Script from 'next/script'
+import { RecoilRoot, useRecoilValue } from 'recoil'
+import { colorModeState } from '../states/colorMode'
 import '../styles/globals.css'
 import 'highlight.js/styles/default.css'
 
+
 const defaultGetLayout: GetLayout<any> = (page: ReactNode): ReactNode => page
 
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-})
+const MyThemeProvider: FC<{children: ReactNode}> = (props) => {
+  const colorMode = useRecoilValue(colorModeState)
 
-const MyApp: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
+  const theme = createTheme({
+    palette: {
+      mode: colorMode,
+    },
+  })
+
+  return (
+    <ThemeProvider theme={theme}>
+      { props.children }
+    </ThemeProvider>
+  )
+}
+
+const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
   Component,
   pageProps,
 }: AppLayoutProps) => {
 
   const getLayout = Component.getLayout ?? defaultGetLayout
+
 
   // https://stackoverflow.com/a/59521406
   React.useEffect(() => {
@@ -29,26 +43,26 @@ const MyApp: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
   }, [])
 
   return (
-    <>
-      <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-NQHQBR591P"/>
-      <Script
-        id='google-analytics'
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
+    <RecoilRoot>
+      <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-NQHQBR591P"/>
+      <Script
+        id='google-analytics'
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-NQHQBR591P');
-          `
-        }}
-      />
-      <ThemeProvider theme={theme}>
+          `
+        }}
+      />
+      <MyThemeProvider>
         <CssBaseline />
         { getLayout(<Component {...pageProps} />) }
-      </ThemeProvider>
-    </>
+      </MyThemeProvider>
+    </RecoilRoot>
   )
 }
 
-export default MyApp
+export default App
