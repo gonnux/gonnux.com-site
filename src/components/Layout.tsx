@@ -36,7 +36,7 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
     (<Root>
       <AppBar />
       <Divider />
-      <Container className={classes.container} maxWidth="sm">
+      <Container className={classes.container} maxWidth="md">
         { children }
       </Container>
       <Divider />
