@@ -5,10 +5,10 @@ import { GetStaticProps, NextLayoutPage } from 'next'
 export const getStaticProps: GetStaticProps<{ about: string}> = async () => {
   const { default: config } = await import('../config')
   const { default: axios } = await import('axios')
-  const { marked } = await import('marked')
+  const { default: marked } = await import('../marked')
 
   const res = await axios.get(config.about.markdown)
-  const about = marked(res.data)
+  const about = marked.parse(res.data)
   return {
     props: { about },
   }

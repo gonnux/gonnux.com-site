@@ -27,12 +27,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { default: config } = await import('../../config')
   const { projects } = config
   const { default: axios } = await import('axios')
-  const { marked } = await import('marked')
+  const { default: marked } = await import('../../marked')
 
   const project = projects.find((project) => project.name === params!.name)
 
   const res = await axios.get(project!.readme)
-  const markdown = marked(res.data) as string
+  const markdown = marked.parse(res.data) as string
 
   return {
     props: { project, markdown },

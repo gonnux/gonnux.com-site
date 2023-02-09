@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs'
 import path from 'path'
-import { marked } from 'marked'
+import marked from './marked'
 
 const YEAR_REGEX = /^\d+$/
 const MONTH_REGEX = /^\d\d$/
@@ -60,7 +60,7 @@ async function getArticle({
   const title = path.parse(file).name
   const content = await fs
     .readFile(path.resolve(dir, file), 'utf8')
-    .then((bytes) => marked(bytes))
+    .then((text) => marked.parse(text))
   return {
     year,
     month,
