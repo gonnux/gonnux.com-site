@@ -1,6 +1,7 @@
 import parse from 'html-react-parser'
 import Layout from '../components/Layout'
 import { GetStaticProps, NextLayoutPage } from 'next'
+import Box from '@mui/material/Box';
 
 export const getStaticProps: GetStaticProps<{ about: string}> = async () => {
   const { default: config } = await import('../config')
@@ -18,6 +19,12 @@ const AboutPage: NextLayoutPage<{ about: string }> = (props) => {
   return parse(props.about) as JSX.Element
 }
 
-AboutPage.getLayout = (page) => (<Layout>{page}</Layout>)
+AboutPage.getLayout = (page) => (
+  <Layout>
+    <Box component="article">
+      {page}
+    </Box>
+  </Layout>
+)
 
 export default AboutPage

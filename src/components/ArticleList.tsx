@@ -1,14 +1,15 @@
+import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
-import React, { FC } from 'react'
+import { FC, Fragment } from 'react'
 import Link from 'next/link'
 import { Article } from '../blog'
 
 const ArticleList: FC<{ articles: Article[] }> = (props) => {
   return (
-    <List>
+    <List component="section">
       {
         props
           .articles
@@ -19,16 +20,23 @@ const ArticleList: FC<{ articles: Article[] }> = (props) => {
             if (a.index !== b.index) return b.index - a.index
             return 0
           })
-          .map((article, idx) => (
-            <React.Fragment key={`${article.year}${article.month}${article.day}${article.index}`}>
-              <Link href={`/blog/${article.year}/${article.month}/${article.day}/${article.index}`}>
-                <ListItem button>
-                  <ListItemText primary={article.title} secondary={`${article.content.split('\n')[0]}...`} />
-                </ListItem>
-              </Link>
-              { idx < props.articles.length - 1 && <Divider /> }
-            </React.Fragment>
-          ))
+          .map((article, idx) => {
+            const articleUrl = `/blog/${article.year}/${article.month}/${article.day}/${article.index}`
+            return (
+              <Box key={articleUrl} sx={{ wordBreak: 'break-all' }}>
+                <Link
+                  href={articleUrl}
+                >
+                  <a href={articleUrl}>
+                    <ListItem component="article" button>
+                      <ListItemText primary={article.title} secondary={`${article.content.split('\n')[0]}...`} />
+                    </ListItem>
+                  </a>
+                </Link>
+                { idx < props.articles.length - 1 && <Divider /> }
+              </Box>
+            )
+          })
       }
     </List>
   )

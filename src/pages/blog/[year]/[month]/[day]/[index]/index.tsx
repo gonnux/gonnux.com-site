@@ -1,4 +1,5 @@
 import parse from 'html-react-parser'
+import Box from '@mui/material/Box'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Divider from '@mui/material/Divider'
 import Link from '@mui/material/Link'
@@ -71,18 +72,25 @@ const ArticlePage: NextLayoutPage<{ article: Article }> = (props) => {
       </Typography>
       <Breadcrumbs>
         <Link color="inherit" href={`/blog/${props.article.year}`}>
-          { props.article.year }
+          <a>{ props.article.year }</a>
         </Link>
         <Link color="inherit" href={`/blog/${props.article.year}/${props.article.month}`}>
-          { props.article.month }
+          <a>{ props.article.month }</a>
         </Link>
         <Link color="inherit" href={`/blog/${props.article.year}/${props.article.month}/${props.article.day}`}>
-          { props.article.day }
+          <a>{ props.article.day }</a>
         </Link>
-        <Link color="inherit" href={`/blog/${props.article.year}/${props.article.month}/${props.article.day}/${props.article.index}`}>{ props.article.index }</Link>
+        <Link
+          color="inherit"
+          href={`/blog/${props.article.year}/${props.article.month}/${props.article.day}/${props.article.index}`}
+        >
+          <a>{ props.article.index }</a>
+        </Link>
       </Breadcrumbs>
       <Divider />
-      { parse(props.article.content) }
+      <Box component="article">
+        { parse(props.article.content) }
+      </Box>
       <Divider />
       <DiscussionEmbed
         shortname={ disqusShortName }

@@ -43,9 +43,11 @@ const ProjectPage: NextLayoutPage<{ project: Project, markdown: string }> = (pro
   return (
     <>
       <Link href={props.project.git}>
-        <IconButton color="inherit">
-          <GitHubIcon />
-        </IconButton>
+        <a>
+          <IconButton color="inherit">
+            <GitHubIcon />
+          </IconButton>
+        </a>
       </Link>
       <Divider />
       { parse(props.markdown) }

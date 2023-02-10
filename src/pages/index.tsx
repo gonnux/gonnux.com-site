@@ -1,3 +1,4 @@
+import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
 import ArticleList from '../components/ArticleList'
@@ -35,14 +36,26 @@ export const getStaticProps: GetStaticProps = async() => {
 const IndexPage: NextLayoutPage<{ articles: Article[], apps: App[], projects: Project[]}> = (props) => {
   return (
     <>
-      <Typography variant="h5">Apps</Typography>
-      <AppList apps={props.apps} />
+      <Box component="section">
+        <Box component="header">
+          <Typography variant="h5">Apps</Typography>
+        </Box>
+        <AppList apps={props.apps} />
+      </Box>
       <Divider />
-      <Typography variant="h5">Projects</Typography>
-      <ProjectList projects={props.projects} />
+      <Box component="section">
+        <Box component="header">
+          <Typography variant="h5">Projects</Typography>
+        </Box>
+        <ProjectList projects={props.projects} />
+      </Box>
       <Divider />
-      <Typography variant="h5">Articles</Typography>
-      <ArticleList articles={props.articles} />
+      <Box component="section">
+        <Box component="header">
+          <Typography variant="h5">Articles</Typography>
+        </Box>
+        <ArticleList articles={props.articles} />
+      </Box>
     </>
   )
 }

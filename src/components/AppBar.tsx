@@ -64,7 +64,7 @@ const AppBar: FC = () => {
           <Box display="flex" justifyContent="center">
             <Typography variant="h3">
               <Link href="/">
-                gonnux.com
+                <a>gonnux.com</a>
               </Link>
             </Typography>
           </Box>
@@ -73,7 +73,9 @@ const AppBar: FC = () => {
             {
               linkIcons.map((linkIcon) => (
                 <Link key={linkIcon[0]} href={linkIcon[0]}>
-                  <IconButton color="inherit">{linkIcon[1]}</IconButton>
+                  <a href={linkIcon[0]}>
+                    <IconButton color="inherit">{linkIcon[1]}</IconButton>
+                  </a>
                 </Link>
               ))
             }
