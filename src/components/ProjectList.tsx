@@ -9,16 +9,21 @@ const ProjectList: FC<{ projects: Project[] }> = (props) => {
   return (
     <Grid container spacing={2}>
       {
-      props
+        props
         .projects
-        .map((project) => (
-          <Link key={project.name} href={`/projects/${project.name}`}>
-            <Grid item xs={3} md={2}>
-              <AppCard name={project.name} image={project.image ?? EMPTY_IMAGE} />
-            </Grid>
-          </Link>
-        ))
-    }
+        .map((project) => {
+          const projectUrl = `/projects/${project.name}`
+          return (
+            <Link key={project.name} href={projectUrl}>
+              <Grid item xs={3} md={2}>
+                <a href={projectUrl}>
+                  <AppCard name={project.name} image={project.image ?? EMPTY_IMAGE} />
+                </a>
+              </Grid>
+            </Link>
+          )
+        })
+      }
     </Grid>
   )
 }

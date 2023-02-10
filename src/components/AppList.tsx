@@ -7,18 +7,23 @@ import AppCard from './AppCard'
 
 const AppList: FC<{ apps: App[] }> = (props) => {
   return (
-    <Grid container spacing={2}>
+    <Grid component="section" container spacing={2}>
       {
       props
         .apps
-        .map((app) => (
-          <Link key={app.name} href={app.site ?? app.git}>
-            <Grid item xs={3} md={2}>
-              <AppCard name={app.name} image={app.image ?? EMPTY_IMAGE} />
-            </Grid>
-          </Link>
-        ))
-    }
+        .map((app) => {
+          const appUrl = app.site ?? app.git
+          return (
+            <Link key={app.name} href={appUrl}>
+              <Grid item xs={3} md={2}>
+                <a href={appUrl}>
+                  <AppCard name={app.name} image={app.image ?? EMPTY_IMAGE} />
+                </a>
+              </Grid>
+            </Link>
+          )
+        })
+      }
     </Grid>
   )
 }
