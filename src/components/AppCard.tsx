@@ -1,4 +1,4 @@
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
@@ -6,12 +6,12 @@ import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import { FC } from 'react'
 
-const PREFIX = 'AppCard';
+const PREFIX = 'AppCard'
 
 const classes = {
   cardMedia: `${PREFIX}-cardMedia`,
   cardContent: `${PREFIX}-cardContent`
-};
+}
 
 const StyledCard = styled(Card)((
   {
@@ -28,7 +28,7 @@ const StyledCard = styled(Card)((
   [`& .${classes.cardContent}`]: {
     padding: theme.spacing(0),
   }
-}));
+}))
 
 const AppCard: FC<{name: string, image: string}> = (props) => {
   return (
@@ -45,7 +45,7 @@ const AppCard: FC<{name: string, image: string}> = (props) => {
         </CardContent>
       </CardActionArea>
     </StyledCard>
-  );
+  )
 }
 
 export default AppCard
