@@ -2,6 +2,8 @@ import React from 'react'
 import Document, {
   Html, Head, Main, NextScript,
 } from 'next/document'
+import Script from 'next/script'
+
 import { ServerStyleSheets } from '@mui/styles'
 
 export default class MyDocument extends Document {
@@ -18,6 +20,13 @@ export default class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
+        <Script
+          id="adsense"
+          strategy="beforeInteractive"
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8314195422970862"
+          crossOrigin="anonymous"
+        />
       </Html>
     )
   }

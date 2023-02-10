@@ -44,9 +44,14 @@ const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
 
   return (
     <RecoilRoot>
-      <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-NQHQBR591P"/>
       <Script
-        id='google-analytics'
+        id="google-analytics-tag"
+        strategy="afterInteractive"
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-NQHQBR591P"
+      />
+      <Script
+        id="google-analytics"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
