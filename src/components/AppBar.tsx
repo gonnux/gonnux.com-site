@@ -61,7 +61,7 @@ const AppBar: FC = () => {
     <StyledMuiAppBar position="static" className={classes.appBar} elevation={0}>
       <Toolbar>
         <Container maxWidth="sm">
-          <Box display="flex" justifyContent="center">
+          <Box component="header" display="flex" justifyContent="center">
             <Typography variant="h3">
               <Link href="/">
                 <a>gonnux.com</a>
@@ -69,7 +69,7 @@ const AppBar: FC = () => {
             </Typography>
           </Box>
           <Divider />
-          <Box display="flex" justifyContent="center">
+          <Box component="nav" display="flex" justifyContent="center">
             {
               linkIcons.map((linkIcon) => (
                 <Link key={linkIcon[0]} href={linkIcon[0]}>
