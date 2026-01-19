@@ -32,7 +32,7 @@ const StyledMuiAppBar = styled(MuiAppBar)(() => ({
 
 interface LinkIcon {
   [0]: string,
-  [1]: any
+  [1]: React.ReactNode
 }
 
 const linkIcons: LinkIcon[] = [
@@ -63,20 +63,16 @@ const AppBar: FC = () => {
         <Container maxWidth="sm">
           <Box component="header" display="flex" justifyContent="center">
             <Typography variant="h3">
-              <Link href="/">
-                <a>gonnux.com</a>
-              </Link>
+              <Link href="/">gonnux.com</Link>
             </Typography>
           </Box>
           <Divider />
           <Box component="nav" display="flex" justifyContent="center">
             {
               linkIcons.map((linkIcon) => (
-                <Link key={linkIcon[0]} href={linkIcon[0]}>
-                  <a href={linkIcon[0]}>
-                    <IconButton color="inherit">{linkIcon[1]}</IconButton>
-                  </a>
-                </Link>
+                <IconButton key={linkIcon[0]} color="inherit" component={Link} href={linkIcon[0]}>
+                  {linkIcon[1]}
+                </IconButton>
               ))
             }
             <ColorModeButton />

@@ -36,32 +36,32 @@ const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
   const getLayout = Component.getLayout ?? defaultGetLayout
 
 
-  // https://stackoverflow.com/a/59521406
-  React.useEffect(() => {
-    const jssStyles = document.querySelector('#jss-server-side')
-    jssStyles?.parentElement!.removeChild(jssStyles)
-  }, [])
+  const gaId = process.env.NEXT_PUBLIC_GA_ID
 
   return (
     <RecoilRoot>
-      <Script
-        id="google-analytics-tag"
-        strategy="afterInteractive"
-        async
-        src="https://www.googletagmanager.com/gtag/js?id=G-NQHQBR591P"
-      />
-      <Script
-        id="google-analytics"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-NQHQBR591P');
-          `
-        }}
-      />
+      {gaId && (
+        <>
+          <Script
+            id="google-analytics-tag"
+            strategy="afterInteractive"
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+          />
+          <Script
+            id="google-analytics"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaId}');
+              `
+            }}
+          />
+        </>
+      )}
       <MyThemeProvider>
         <CssBaseline />
         { getLayout(<Component {...pageProps} />) }

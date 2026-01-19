@@ -58,7 +58,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 }
 
 const ArticlePage: NextLayoutPage<{ article: Article }> = (props) => {
-  const disqusShortName = 'gonnux'
+  const disqusShortName = process.env.NEXT_PUBLIC_DISQUS_SHORTNAME
   const disqusConfig = {
     url: `https://gonnux.com/blog/${props.article.year}/${props.article.month}/${props.article.day}/${props.article.index}`,
     identifier: `${props.article.year}/${props.article.month}/${props.article.day}/${props.article.index}`,
@@ -72,19 +72,19 @@ const ArticlePage: NextLayoutPage<{ article: Article }> = (props) => {
       </Typography>
       <Breadcrumbs>
         <Link color="inherit" href={`/blog/${props.article.year}`}>
-          <a>{ props.article.year }</a>
+          { props.article.year }
         </Link>
         <Link color="inherit" href={`/blog/${props.article.year}/${props.article.month}`}>
-          <a>{ props.article.month }</a>
+          { props.article.month }
         </Link>
         <Link color="inherit" href={`/blog/${props.article.year}/${props.article.month}/${props.article.day}`}>
-          <a>{ props.article.day }</a>
+          { props.article.day }
         </Link>
         <Link
           color="inherit"
           href={`/blog/${props.article.year}/${props.article.month}/${props.article.day}/${props.article.index}`}
         >
-          <a>{ props.article.index }</a>
+          { props.article.index }
         </Link>
       </Breadcrumbs>
       <Divider />
@@ -92,10 +92,12 @@ const ArticlePage: NextLayoutPage<{ article: Article }> = (props) => {
         { parse(props.article.content) }
       </Box>
       <Divider />
-      <DiscussionEmbed
-        shortname={ disqusShortName }
-        config={ disqusConfig }
-      />
+      {disqusShortName && (
+        <DiscussionEmbed
+          shortname={ disqusShortName }
+          config={ disqusConfig }
+        />
+      )}
     </>
   )
 }
