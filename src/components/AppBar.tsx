@@ -1,3 +1,5 @@
+'use client'
+
 import { styled } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar'
 import AppsIcon from '@mui/icons-material/Apps'

@@ -1,3 +1,5 @@
+'use client'
+
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
