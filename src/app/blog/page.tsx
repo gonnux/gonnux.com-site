@@ -2,6 +2,8 @@ import ArticleList from '../../components/ArticleList'
 import blog from '../../blog'
 import cheerio from 'cheerio'
 
+export const dynamic = 'force-static'
+
 export default async function BlogPage() {
   const articles = (
     await Promise.all(

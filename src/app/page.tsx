@@ -3,6 +3,8 @@ import config from '../config'
 import cheerio from 'cheerio'
 import HomeContent from '../components/HomeContent'
 
+export const dynamic = 'force-static'
+
 export default async function HomePage() {
   const articles = (
     await Promise.all(
