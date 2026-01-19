@@ -14,13 +14,11 @@ const AppList: FC<{ apps: App[] }> = (props) => {
         .map((app) => {
           const appUrl = app.site ?? app.git
           return (
-            <Link key={app.name} href={appUrl}>
-              <Grid item xs={3} md={2}>
-                <a href={appUrl}>
-                  <AppCard name={app.name} image={app.image ?? EMPTY_IMAGE} />
-                </a>
-              </Grid>
-            </Link>
+            <Grid key={app.name} item xs={3} md={2}>
+              <Link href={appUrl}>
+                <AppCard name={app.name} image={app.image ?? EMPTY_IMAGE} />
+              </Link>
+            </Grid>
           )
         })
       }

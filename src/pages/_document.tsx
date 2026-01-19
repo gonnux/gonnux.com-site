@@ -15,13 +15,15 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
-          <Script
-            id="adsense"
-            strategy="beforeInteractive"
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8314195422970862"
-            crossOrigin="anonymous"
-          />
+          {process.env.NEXT_PUBLIC_ADSENSE_ID && (
+            <Script
+              id="adsense"
+              strategy="beforeInteractive"
+              async
+              src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
+              crossOrigin="anonymous"
+            />
+          )}
         </Head>
         <body>
           <Main />

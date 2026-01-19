@@ -24,14 +24,10 @@ const ArticleList: FC<{ articles: Article[] }> = (props) => {
             const articleUrl = `/blog/${article.year}/${article.month}/${article.day}/${article.index}`
             return (
               <Box key={articleUrl} sx={{ wordBreak: 'break-all' }}>
-                <Link
-                  href={articleUrl}
-                >
-                  <a href={articleUrl}>
-                    <ListItem component="article" button>
-                      <ListItemText primary={article.title} secondary={`${article.content.split('\n')[0]}...`} />
-                    </ListItem>
-                  </a>
+                <Link href={articleUrl}>
+                  <ListItem component="article" button>
+                    <ListItemText primary={article.title} secondary={`${article.content.split('\n')[0]}...`} />
+                  </ListItem>
                 </Link>
                 { idx < props.articles.length - 1 && <Divider /> }
               </Box>

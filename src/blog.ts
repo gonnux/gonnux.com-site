@@ -102,11 +102,6 @@ async function getAllYearMonthDayIndices(): Promise<YearMonthDayIndex[]> {
   return indices
 }
 
-// NOT IMPLEMENTED
-async function getLatestArticles(count: number) {
-  return count
-}
-
 export interface Article {
   year: number,
   month: number,
@@ -139,7 +134,6 @@ const Blog = {
   getAllYearMonths,
   getAllYearMonthDays,
   getAllYearMonthDayIndices,
-  getLatestArticles,
 }
 
 export default Blog
