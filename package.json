@@ -4,8 +4,9 @@
   "private": true,
   "packageManager": "yarn@4.9.1",
   "scripts": {
-    "dev": "next dev",
-    "build": "next lint && next build",
+    "generate-config": "node scripts/generate-config.js",
+    "dev": "yarn generate-config && next dev",
+    "build": "yarn generate-config && next lint && next build",
     "start": "next start",
     "lint": "next lint"
   },

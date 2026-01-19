@@ -1,8 +1,6 @@
-import yaml from 'js-yaml'
-import fs from 'fs'
+import generatedConfig from './config.generated'
 
-const CONFIG_YAML: string = process.env.CONFIG_YAML ?? 'config.yaml'
-const config: Config = yaml.load(fs.readFileSync(CONFIG_YAML, 'utf8')) as Config
+const config: Config = generatedConfig
 
 export interface About {
   markdown: string
