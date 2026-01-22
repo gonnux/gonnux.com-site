@@ -1,10 +1,17 @@
 import { ReactNode } from 'react'
 import { Metadata } from 'next'
 import Script from 'next/script'
+import { Roboto } from 'next/font/google'
 import Providers from '../components/Providers'
 import LayoutContent from '../components/LayoutContent'
 import './globals.css'
 import 'highlight.js/styles/default.css'
+
+const roboto = Roboto({
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'gonnux.com',
@@ -17,10 +24,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-        />
         {adsenseId && (
           <Script
             id="adsense"
@@ -31,7 +34,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           />
         )}
       </head>
-      <body>
+      <body className={roboto.className}>
         {gaId && (
           <>
             <Script
