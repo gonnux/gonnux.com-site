@@ -1,16 +1,16 @@
 import { ReactNode } from 'react'
 import { Metadata } from 'next'
 import Script from 'next/script'
-import { Roboto } from 'next/font/google'
+import localFont from 'next/font/local'
 import Providers from '../components/Providers'
 import LayoutContent from '../components/LayoutContent'
 import './globals.css'
 import 'highlight.js/styles/default.css'
 
-const roboto = Roboto({
-  weight: ['300', '400', '500', '700'],
-  subsets: ['latin'],
+const roboto = localFont({
+  src: '../fonts/Roboto-VariableFont.woff2',
   display: 'swap',
+  weight: '100 900',
 })
 
 export const metadata: Metadata = {
