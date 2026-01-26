@@ -1,3 +1,4 @@
+import { Metadata } from 'next'
 import config from '../../../config'
 import axios from 'axios'
 import marked from '../../../marked'
@@ -12,6 +13,27 @@ export async function generateStaticParams() {
 
 interface ProjectPageProps {
   params: Promise<{ name: string }>
+}
+
+export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
+  const { name } = await params
+  const project = config.projects.find((p) => p.name === name)
+
+  if (!project) return { title: 'Project not found' }
+
+  const url = `https://gonnux.com/projects/${name}`
+
+  return {
+    title: project.name,
+    description: `${project.name} project by gonnux`,
+    openGraph: {
+      type: 'website',
+      title: project.name,
+      url,
+      images: project.image ? [{ url: project.image }] : undefined,
+    },
+    alternates: { canonical: url },
+  }
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {

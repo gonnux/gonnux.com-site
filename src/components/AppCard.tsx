@@ -41,6 +41,7 @@ const AppCard: FC<{name: string, image: string}> = (props) => {
           <CardMedia
             className={classes.cardMedia}
             image={props.image}
+            title={props.name}
           />
           <CardContent component="footer" className={classes.cardContent}>
             <Typography align="center">

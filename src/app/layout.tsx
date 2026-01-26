@@ -14,7 +14,28 @@ const roboto = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'gonnux.com',
+  title: {
+    default: 'gonnux.com',
+    template: '%s | gonnux.com',
+  },
+  description: 'Personal website of gonnux - projects, apps, and blog',
+  metadataBase: new URL('https://gonnux.com'),
+  openGraph: {
+    type: 'website',
+    locale: 'ko_KR',
+    url: 'https://gonnux.com',
+    siteName: 'gonnux.com',
+    title: 'gonnux.com',
+    description: 'Personal website of gonnux - projects, apps, and blog',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'gonnux.com',
+    description: 'Personal website of gonnux - projects, apps, and blog',
+  },
+  alternates: {
+    canonical: 'https://gonnux.com',
+  },
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
