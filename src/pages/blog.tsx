@@ -1,11 +1,14 @@
 import ArticleList from '../components/ArticleList'
 import Layout from '../components/Layout'
+import SEO from '../components/SEO'
 import { Article } from '../blog'
+import { Site } from '../config'
 import { GetStaticProps, NextLayoutPage } from 'next'
 
 export const getStaticProps: GetStaticProps = async () => {
 
   const { default: blog } = await import('../blog')
+  const { default: config } = await import('../config')
   const { load } = await import('cheerio')
 
   const articles = (await Promise.all(
@@ -18,12 +21,22 @@ export const getStaticProps: GetStaticProps = async () => {
   }))
 
   return {
-    props: { articles },
+    props: { site: config.site, articles },
   }
 }
 
-const BlogPage: NextLayoutPage<{ articles: [Article]}> = (props) => {
-  return (<ArticleList articles={props.articles} />)
+const BlogPage: NextLayoutPage<{ site: Site, articles: [Article]}> = (props) => {
+  return (
+    <>
+      <SEO
+        site={props.site}
+        title="Blog"
+        description="gonnux의 기술 블로그 - 개발, 프로그래밍 관련 글"
+        canonical="/blog"
+      />
+      <ArticleList articles={props.articles} />
+    </>
+  )
 }
 
 BlogPage.getLayout = (page) => (<Layout>{page}</Layout>)

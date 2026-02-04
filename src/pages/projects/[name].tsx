@@ -4,7 +4,8 @@ import GitHubIcon from '@mui/icons-material/GitHub'
 import IconButton from '@mui/material/IconButton'
 import Link from 'next/link'
 import Layout from '../../components/Layout'
-import { Project } from '../../config'
+import SEO from '../../components/SEO'
+import { Project, Site } from '../../config'
 import { GetStaticPaths, GetStaticProps, NextLayoutPage } from 'next'
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -25,7 +26,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const { default: config } = await import('../../config')
-  const { projects } = config
+  const { site, projects } = config
   const { default: axios } = await import('axios')
   const { default: marked } = await import('../../marked')
 
@@ -35,13 +36,20 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const markdown = marked.parse(res.data) as string
 
   return {
-    props: { project, markdown },
+    props: { site, project, markdown },
   }
 }
 
-const ProjectPage: NextLayoutPage<{ project: Project, markdown: string }> = (props) => {
+const ProjectPage: NextLayoutPage<{ site: Site, project: Project, markdown: string }> = (props) => {
   return (
     <>
+      <SEO
+        site={props.site}
+        title={props.project.name}
+        description={`${props.project.name} 프로젝트 - gonnux의 오픈소스 프로젝트`}
+        canonical={`/projects/${props.project.name}`}
+        ogImage={props.project.image}
+      />
       <Link href={props.project.git}>
         <a>
           <IconButton color="inherit">

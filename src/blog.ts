@@ -46,6 +46,20 @@ async function getIndices({ year, month, day }: YearMonthDay): Promise<number[]>
   .map((index) => parseInt(index))
 }
 
+// HTML 태그를 제거하고 텍스트만 추출하는 헬퍼 함수
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim()
+}
+
+// 게시글 요약 생성 - SEO description에 사용
+function createExcerpt(content: string, maxLength: number = 150): string {
+  const text = stripHtml(content)
+  if (text.length <= maxLength) {
+    return text
+  }
+  return text.slice(0, maxLength).trim() + '...'
+}
+
 async function getArticle({
   year, month, day, index,
 }: YearMonthDayIndex): Promise<Article> {
@@ -61,6 +75,7 @@ async function getArticle({
   const content = await fs
     .readFile(path.resolve(dir, file), 'utf8')
     .then((text) => marked.parse(text))
+  const excerpt = createExcerpt(content)
   return {
     year,
     month,
@@ -68,6 +83,7 @@ async function getArticle({
     index,
     title,
     content,
+    excerpt,
   }
 }
 
@@ -108,7 +124,8 @@ export interface Article {
   day: number,
   index: number,
   title: string,
-  content: string
+  content: string,
+  excerpt: string  // SEO description에 사용할 요약
 }
 
 export interface YearMonth {

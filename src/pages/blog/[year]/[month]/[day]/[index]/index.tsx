@@ -7,9 +7,11 @@ import Typography from '@mui/material/Typography'
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, PreviewData } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import Layout from '../../../../../../components/Layout'
+import SEO from '../../../../../../components/SEO'
 import { NextLayoutPage } from 'next'
 import { Article } from '../../../../../../blog'
 import { YearMonthDayIndex } from '../../../../../../blog'
+import { Site } from '../../../../../../config'
 import { DiscussionEmbed } from "disqus-react"
 
 
@@ -44,6 +46,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const { default: blog } = await import('../../../../../../blog')
+  const { default: config } = await import('../../../../../../config')
 
   const yearMonthDayIndex: YearMonthDayIndex = {
     year: parseInt(params!.year as string),
@@ -53,20 +56,34 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
 
   return {
-    props: { article: await blog.getArticle(yearMonthDayIndex) },
+    props: { site: config.site, article: await blog.getArticle(yearMonthDayIndex) },
   }
 }
 
-const ArticlePage: NextLayoutPage<{ article: Article }> = (props) => {
+const ArticlePage: NextLayoutPage<{ site: Site, article: Article }> = (props) => {
   const disqusShortName = process.env.NEXT_PUBLIC_DISQUS_SHORTNAME
+  const articleUrl = `/blog/${props.article.year}/${props.article.month}/${props.article.day}/${props.article.index}`
   const disqusConfig = {
-    url: `https://gonnux.com/blog/${props.article.year}/${props.article.month}/${props.article.day}/${props.article.index}`,
-    identifier: `${props.article.year}/${props.article.month}/${props.article.day}/${props.article.index}`,
+    url: `https://gonnux.com${articleUrl}`,
+    identifier: articleUrl,
     title: props.article.title
   }
 
+  // 게시글 발행일 생성 (ISO 8601 형식)
+  const publishedTime = `${props.article.year}-${String(props.article.month).padStart(2, '0')}-${String(props.article.day).padStart(2, '0')}`
+
   return (
     <>
+      <SEO
+        site={props.site}
+        title={props.article.title}
+        description={props.article.excerpt}
+        canonical={articleUrl}
+        ogType="article"
+        article={{
+          publishedTime,
+        }}
+      />
       <Typography variant="h4">
         { props.article.title }
       </Typography>

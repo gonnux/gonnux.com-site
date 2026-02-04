@@ -1,20 +1,31 @@
 import Layout from '../components/Layout'
 import ProjectList from '../components/ProjectList'
-import { Project } from '../config'
+import SEO from '../components/SEO'
+import { Project, Site } from '../config'
 import { GetStaticProps, NextLayoutPage } from 'next'
 
 export const getStaticProps: GetStaticProps = async() => {
 
   const { default: config } = await import('../config')
-  const { projects } = config
+  const { site, projects } = config
 
   return {
-    props: { projects },
+    props: { site, projects },
   }
 }
 
-const ProjectsPage: NextLayoutPage<{ projects: Project[] }> = (props) => {
-  return (<ProjectList projects={props.projects} />)
+const ProjectsPage: NextLayoutPage<{ site: Site, projects: Project[] }> = (props) => {
+  return (
+    <>
+      <SEO
+        site={props.site}
+        title="Projects"
+        description="gonnux의 오픈소스 프로젝트 목록"
+        canonical="/projects"
+      />
+      <ProjectList projects={props.projects} />
+    </>
+  )
 }
 
 ProjectsPage.getLayout = (page) => (<Layout>{page}</Layout>)

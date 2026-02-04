@@ -1,5 +1,7 @@
 import Layout from '../../../components/Layout'
 import DateList from '../../../components/DateList'
+import SEO from '../../../components/SEO'
+import { Site } from '../../../config'
 import { GetStaticPaths, GetStaticProps, NextLayoutPage } from 'next'
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -19,14 +21,26 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { default: blog } = await import('../../../blog')
-  const months = await blog.getMonths({ year: parseInt(params!.year as string) })
+  const { default: config } = await import('../../../config')
+  const year = parseInt(params!.year as string)
+  const months = await blog.getMonths({ year })
   return {
-    props: { months },
+    props: { site: config.site, year, months },
   }
 }
 
-const YearPage: NextLayoutPage<{ months: number[]}> = (props) => {
-  return (<DateList dates={props.months} />)
+const YearPage: NextLayoutPage<{ site: Site, year: number, months: number[] }> = (props) => {
+  return (
+    <>
+      <SEO
+        site={props.site}
+        title={`Blog ${props.year}`}
+        description={`${props.year}년 블로그 글 목록`}
+        canonical={`/blog/${props.year}`}
+      />
+      <DateList dates={props.months} />
+    </>
+  )
 }
 
 YearPage.getLayout = (page) => (<Layout>{page}</Layout>)

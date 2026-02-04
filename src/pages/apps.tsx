@@ -1,18 +1,29 @@
 import { GetStaticProps, NextLayoutPage } from 'next'
 import AppList from '../components/AppList'
 import Layout from '../components/Layout'
-import { App } from '../config'
+import SEO from '../components/SEO'
+import { App, Site } from '../config'
 
-export const getStaticProps: GetStaticProps<{apps: App[]}> = async() => {
+export const getStaticProps: GetStaticProps<{site: Site, apps: App[]}> = async() => {
   const { default: config } = await import('../config')
-  const { apps } = config
+  const { site, apps } = config
   return {
-    props: { apps },
+    props: { site, apps },
   }
 }
 
-const AppsPage: NextLayoutPage<{ apps: App[] }> = (props) => {
-  return (<AppList apps={props.apps} />)
+const AppsPage: NextLayoutPage<{ site: Site, apps: App[] }> = (props) => {
+  return (
+    <>
+      <SEO
+        site={props.site}
+        title="Apps"
+        description="gonnux가 만든 앱 목록 - 웹 앱과 오픈소스 프로젝트"
+        canonical="/apps"
+      />
+      <AppList apps={props.apps} />
+    </>
+  )
 }
 
 AppsPage.getLayout = (page) => (<Layout>{page}</Layout>)

@@ -5,9 +5,10 @@ import ArticleList from '../components/ArticleList'
 import AppList from '../components/AppList'
 import ProjectList from '../components/ProjectList'
 import Layout from '../components/Layout'
+import SEO from '../components/SEO'
 import { Article } from '../blog'
 import { GetStaticProps, NextLayoutPage } from 'next'
-import { App, Project } from '../config'
+import { App, Project, Site } from '../config'
 
 export const getStaticProps: GetStaticProps = async() => {
 
@@ -26,16 +27,17 @@ export const getStaticProps: GetStaticProps = async() => {
     content: load(article.content).text(),
   }))
 
-  const { apps, projects } = config
+  const { site, apps, projects } = config
 
   return {
-    props: { articles, apps, projects },
+    props: { site, articles, apps, projects },
   }
 }
 
-const IndexPage: NextLayoutPage<{ articles: Article[], apps: App[], projects: Project[]}> = (props) => {
+const IndexPage: NextLayoutPage<{ site: Site, articles: Article[], apps: App[], projects: Project[]}> = (props) => {
   return (
     <>
+      <SEO site={props.site} canonical="/" />
       <Box component="section">
         <Box component="header">
           <Typography variant="h5">Apps</Typography>
