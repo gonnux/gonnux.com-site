@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
 import { FC } from 'react'
 
-const Footer: FC<{}> = () => {
+const Footer: FC = () => {
   const githubRemoteUrl = process.env.NEXT_PUBLIC_GITHUB_REMOTE_URL
   const gitCommitHash = process.env.NEXT_PUBLIC_GIT_COMMIT_HASH
   const githubCommitUrl = `${githubRemoteUrl}/commit/${gitCommitHash}`
