@@ -6,7 +6,7 @@ import { GetStaticProps, NextLayoutPage } from 'next'
 export const getStaticProps: GetStaticProps = async () => {
 
   const { default: blog } = await import('../blog')
-  const { default: cheerio } = await import('cheerio')
+  const { load } = await import('cheerio')
 
   const articles = (await Promise.all(
     (await blog.getAllYearMonthDayIndices())
@@ -14,7 +14,7 @@ export const getStaticProps: GetStaticProps = async () => {
   ))
   .map((article) => ({
     ...article,
-    content: cheerio.load(article.content).text(),
+    content: load(article.content).text(),
   }))
 
   return {

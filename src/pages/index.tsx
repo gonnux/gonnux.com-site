@@ -12,7 +12,7 @@ import { App, Project } from '../config'
 export const getStaticProps: GetStaticProps = async() => {
 
   const { default: blog } = await import('../blog')
-  const { default: cheerio } = await import('cheerio')
+  const { load } = await import('cheerio')
   const { default: config } = await import('../config')
 
   const articles = (
@@ -23,7 +23,7 @@ export const getStaticProps: GetStaticProps = async() => {
   )
   .map((article) => ({
     ...article,
-    content: cheerio.load(article.content).text(),
+    content: load(article.content).text(),
   }))
 
   const { apps, projects } = config
