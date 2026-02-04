@@ -3,14 +3,15 @@ import Divider from '@mui/material/Divider'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import IconButton from '@mui/material/IconButton'
 import Link from 'next/link'
-import Layout from '../../components/Layout'
-import SEO from '../../components/SEO'
-import { Project, Site } from '../../config'
-import { GetStaticPaths, GetStaticProps, NextLayoutPage } from 'next'
+import Layout from '@/components/Layout'
+import SEO from '@/components/SEO'
+import { Project, Site } from '@/config'
+import { GetStaticPaths, GetStaticProps } from 'next'
+import { NextLayoutPage } from '@/types/layout'
 
 export const getStaticPaths: GetStaticPaths = async () => {
 
-  const { default: config } = await import('../../config')
+  const { default: config } = await import('@/config')
   const { projects } = config
 
   return {
@@ -25,18 +26,25 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
 
-  const { default: config } = await import('../../config')
+  const { default: config } = await import('@/config')
   const { site, projects } = config
   const { default: axios } = await import('axios')
-  const { default: marked } = await import('../../marked')
+  const { default: marked } = await import('@/marked')
 
   const project = projects.find((project) => project.name === params!.name)
 
-  const res = await axios.get(project!.readme)
-  const markdown = marked.parse(res.data) as string
+  try {
+    const res = await axios.get(project!.readme)
+    const markdown = marked.parse(res.data) as string
 
-  return {
-    props: { site, project, markdown },
+    return {
+      props: { site, project, markdown },
+    }
+  } catch (error) {
+    console.error(`Failed to fetch readme for project ${project!.name}:`, error)
+    return {
+      props: { site, project, markdown: '<p>README를 불러오는데 실패했습니다.</p>' },
+    }
   }
 }
 

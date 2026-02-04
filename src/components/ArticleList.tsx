@@ -5,7 +5,8 @@ import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import { FC, Fragment } from 'react'
 import Link from 'next/link'
-import { Article } from '../blog'
+import { Article } from '@/blog'
+import { getArticleUrl } from '@/utils/url'
 
 const ArticleList: FC<{ articles: Article[] }> = (props) => {
   return (
@@ -21,7 +22,7 @@ const ArticleList: FC<{ articles: Article[] }> = (props) => {
             return 0
           })
           .map((article, idx) => {
-            const articleUrl = `/blog/${article.year}/${article.month}/${article.day}/${article.index}`
+            const articleUrl = getArticleUrl(article)
             return (
               <Box key={articleUrl} sx={{ wordBreak: 'break-all' }}>
                 <Link href={articleUrl}>

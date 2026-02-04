@@ -4,14 +4,14 @@ import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Divider from '@mui/material/Divider'
 import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, PreviewData } from 'next'
-import { ParsedUrlQuery } from 'querystring'
-import Layout from '../../../../../../components/Layout'
-import SEO from '../../../../../../components/SEO'
-import { NextLayoutPage } from 'next'
-import { Article } from '../../../../../../blog'
-import { YearMonthDayIndex } from '../../../../../../blog'
-import { Site } from '../../../../../../config'
+import { GetStaticPaths, GetStaticProps } from 'next'
+import { NextLayoutPage } from '@/types/layout'
+import Layout from '@/components/Layout'
+import SEO from '@/components/SEO'
+import { Article, YearMonthDayIndex } from '@/blog'
+import { Site } from '@/config'
+import { getArticleUrl } from '@/utils/url'
+import { formatDate } from '@/utils/date'
 import { DiscussionEmbed } from "disqus-react"
 
 
@@ -26,7 +26,7 @@ interface Params extends ParsedUrlQuery {
 
 export const getStaticPaths: GetStaticPaths = async () => {
 
-  const { default: blog } = await import('../../../../../../blog')
+  const { default: blog } = await import('@/blog')
 
   const yearMonthDayIndices: YearMonthDayIndex[] = await blog.getAllYearMonthDayIndices()
 
@@ -45,8 +45,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
 
-  const { default: blog } = await import('../../../../../../blog')
-  const { default: config } = await import('../../../../../../config')
+  const { default: blog } = await import('@/blog')
+  const { default: config } = await import('@/config')
 
   const yearMonthDayIndex: YearMonthDayIndex = {
     year: parseInt(params!.year as string),
@@ -62,7 +62,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 const ArticlePage: NextLayoutPage<{ site: Site, article: Article }> = (props) => {
   const disqusShortName = process.env.NEXT_PUBLIC_DISQUS_SHORTNAME
-  const articleUrl = `/blog/${props.article.year}/${props.article.month}/${props.article.day}/${props.article.index}`
+  const articleUrl = getArticleUrl(props.article)
   const disqusConfig = {
     url: `https://gonnux.com${articleUrl}`,
     identifier: articleUrl,
@@ -70,7 +70,7 @@ const ArticlePage: NextLayoutPage<{ site: Site, article: Article }> = (props) =>
   }
 
   // 게시글 발행일 생성 (ISO 8601 형식)
-  const publishedTime = `${props.article.year}-${String(props.article.month).padStart(2, '0')}-${String(props.article.day).padStart(2, '0')}`
+  const publishedTime = formatDate(props.article.year, props.article.month, props.article.day)
 
   return (
     <>

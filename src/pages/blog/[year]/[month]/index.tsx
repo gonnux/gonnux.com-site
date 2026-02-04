@@ -1,12 +1,13 @@
-import Layout from '../../../../components/Layout'
-import DateList from '../../../../components/DateList'
-import SEO from '../../../../components/SEO'
-import { Site } from '../../../../config'
-import { GetStaticPaths, GetStaticProps, NextLayoutPage } from 'next'
+import Layout from '@/components/Layout'
+import DateList from '@/components/DateList'
+import SEO from '@/components/SEO'
+import { Site } from '@/config'
+import { GetStaticPaths, GetStaticProps } from 'next'
+import { NextLayoutPage } from '@/types/layout'
 
 export const getStaticPaths: GetStaticPaths = async () => {
 
-  const { default: blog } = await import('../../../../blog')
+  const { default: blog } = await import('@/blog')
 
   const yearMonths = await blog.getAllYearMonths()
 
@@ -23,8 +24,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
 
-  const { default: blog } = await import('../../../../blog')
-  const { default: config } = await import('../../../../config')
+  const { default: blog } = await import('@/blog')
+  const { default: config } = await import('@/config')
 
   const year = parseInt(params!.year as string)
   const month = parseInt(params!.month as string)

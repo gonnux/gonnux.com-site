@@ -1,12 +1,13 @@
-import Layout from '../components/Layout'
-import ProjectList from '../components/ProjectList'
-import SEO from '../components/SEO'
-import { Project, Site } from '../config'
-import { GetStaticProps, NextLayoutPage } from 'next'
+import Layout from '@/components/Layout'
+import ProjectList from '@/components/ProjectList'
+import SEO from '@/components/SEO'
+import { Project, Site } from '@/config'
+import { GetStaticProps } from 'next'
+import { NextLayoutPage } from '@/types/layout'
 
 export const getStaticProps: GetStaticProps = async() => {
 
-  const { default: config } = await import('../config')
+  const { default: config } = await import('@/config')
   const { site, projects } = config
 
   return {

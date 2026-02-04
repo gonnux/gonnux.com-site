@@ -15,7 +15,7 @@ import MessageIcon from '@mui/icons-material/Message'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { FC, useState } from 'react'
-import { colorModeState } from '../states/colorMode'
+import { colorModeState } from '@/states/colorMode'
 import { useRecoilState } from 'recoil'
 
 const PREFIX = 'AppBar';

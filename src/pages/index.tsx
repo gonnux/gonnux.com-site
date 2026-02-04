@@ -1,20 +1,21 @@
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
-import ArticleList from '../components/ArticleList'
-import AppList from '../components/AppList'
-import ProjectList from '../components/ProjectList'
-import Layout from '../components/Layout'
-import SEO from '../components/SEO'
-import { Article } from '../blog'
-import { GetStaticProps, NextLayoutPage } from 'next'
-import { App, Project, Site } from '../config'
+import ArticleList from '@/components/ArticleList'
+import AppList from '@/components/AppList'
+import ProjectList from '@/components/ProjectList'
+import Layout from '@/components/Layout'
+import SEO from '@/components/SEO'
+import { Article } from '@/blog'
+import { GetStaticProps } from 'next'
+import { NextLayoutPage } from '@/types/layout'
+import { App, Project, Site } from '@/config'
 
 export const getStaticProps: GetStaticProps = async() => {
 
-  const { default: blog } = await import('../blog')
+  const { default: blog } = await import('@/blog')
   const { load } = await import('cheerio')
-  const { default: config } = await import('../config')
+  const { default: config } = await import('@/config')
 
   const articles = (
     await Promise.all(

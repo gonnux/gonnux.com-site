@@ -1,29 +1,15 @@
-import Grid from '@mui/material/Grid'
-import Link from 'next/link'
 import { FC } from 'react'
-import { App } from '../config'
-import { EMPTY_IMAGE } from '../constants'
-import AppCard from './AppCard'
+import { App } from '@/config'
+import GridCardList from './GridCardList'
 
-const AppList: FC<{ apps: App[] }> = (props) => {
-  return (
-    <Grid component="section" container spacing={2}>
-      {
-      props
-        .apps
-        .map((app) => {
-          const appUrl = app.site ?? app.git
-          return (
-            <Grid key={app.name} item xs={3} md={2}>
-              <Link href={appUrl}>
-                <AppCard name={app.name} image={app.image ?? EMPTY_IMAGE} />
-              </Link>
-            </Grid>
-          )
-        })
-      }
-    </Grid>
-  )
-}
+const AppList: FC<{ apps: App[] }> = ({ apps }) => (
+  <GridCardList
+    items={apps}
+    getUrl={(app) => app.site ?? app.git}
+    getName={(app) => app.name}
+    getImage={(app) => app.image}
+    component="section"
+  />
+)
 
 export default AppList

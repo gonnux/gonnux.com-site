@@ -1,14 +1,15 @@
-import ArticleList from '../components/ArticleList'
-import Layout from '../components/Layout'
-import SEO from '../components/SEO'
-import { Article } from '../blog'
-import { Site } from '../config'
-import { GetStaticProps, NextLayoutPage } from 'next'
+import ArticleList from '@/components/ArticleList'
+import Layout from '@/components/Layout'
+import SEO from '@/components/SEO'
+import { Article } from '@/blog'
+import { Site } from '@/config'
+import { GetStaticProps } from 'next'
+import { NextLayoutPage } from '@/types/layout'
 
 export const getStaticProps: GetStaticProps = async () => {
 
-  const { default: blog } = await import('../blog')
-  const { default: config } = await import('../config')
+  const { default: blog } = await import('@/blog')
+  const { default: config } = await import('@/config')
   const { load } = await import('cheerio')
 
   const articles = (await Promise.all(

@@ -1,13 +1,14 @@
-import Layout from '../../../../../components/Layout'
-import DateList from '../../../../../components/DateList'
-import SEO from '../../../../../components/SEO'
-import { YearMonthDay } from '../../../../../blog'
-import { Site } from '../../../../../config'
-import { GetStaticPaths, NextLayoutPage } from 'next'
+import Layout from '@/components/Layout'
+import DateList from '@/components/DateList'
+import SEO from '@/components/SEO'
+import { YearMonthDay } from '@/blog'
+import { Site } from '@/config'
+import { GetStaticPaths } from 'next'
+import { NextLayoutPage } from '@/types/layout'
 
 export const getStaticPaths: GetStaticPaths = async() => {
 
-  const { default: blog } = await import('../../../../../blog')
+  const { default: blog } = await import('@/blog')
 
   const yearMonthDays = await blog.getAllYearMonthDays()
 
@@ -15,8 +16,8 @@ export const getStaticPaths: GetStaticPaths = async() => {
     paths: yearMonthDays.map((yearMonthDay) => ({
       params: {
         year: yearMonthDay.year.toString() ,
-        month: yearMonthDay.month.toString(), 
-        day: yearMonthDay.day.toString() 
+        month: yearMonthDay.month.toString(),
+        day: yearMonthDay.day.toString()
       }
     })),
     fallback: false,
@@ -25,8 +26,8 @@ export const getStaticPaths: GetStaticPaths = async() => {
 
 export async function getStaticProps({ params }: { params: YearMonthDay }) {
 
-  const { default: blog } = await import('../../../../../blog')
-  const { default: config } = await import('../../../../../config')
+  const { default: blog } = await import('@/blog')
+  const { default: config } = await import('@/config')
 
   const { year, month, day } = params
   const indices = await blog.getIndices(params)

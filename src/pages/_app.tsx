@@ -1,16 +1,20 @@
-import React, { FC, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { AppContext, AppInitialProps, AppLayoutProps, AppProps } from 'next/app'
-import { GetLayout, NextComponentType, NextLayoutPage } from 'next'
+import { AppProps } from 'next/app'
 import Script from 'next/script'
 import { RecoilRoot, useRecoilValue } from 'recoil'
-import { colorModeState } from '../states/colorMode'
-import '../styles/globals.css'
+import { colorModeState } from '@/states/colorMode'
+import '@/styles/globals.css'
 import 'highlight.js/styles/default.css'
 
+type AppPropsWithLayout = AppProps & {
+  Component: AppProps['Component'] & {
+    getLayout?: (page: ReactNode) => ReactNode
+  }
+}
 
-const defaultGetLayout: GetLayout<any> = (page: ReactNode): ReactNode => page
+const defaultGetLayout = (page: ReactNode): ReactNode => page
 
 const MyThemeProvider: FC<{children: ReactNode}> = (props) => {
   const colorMode = useRecoilValue(colorModeState)
@@ -28,10 +32,10 @@ const MyThemeProvider: FC<{children: ReactNode}> = (props) => {
   )
 }
 
-const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
+const App = ({
   Component,
   pageProps,
-}: AppLayoutProps) => {
+}: AppPropsWithLayout) => {
 
   const getLayout = Component.getLayout ?? defaultGetLayout
 

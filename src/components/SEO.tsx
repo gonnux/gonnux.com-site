@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { FC } from 'react'
-import { Site } from '../config'
+import { Site } from '@/config'
 
 interface SEOProps {
   site: Site

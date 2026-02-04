@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import marked from './marked'
+import { padTwo } from './utils/date'
 
 const YEAR_REGEX = /^\d+$/
 const MONTH_REGEX = /^\d\d$/
@@ -29,7 +30,7 @@ async function getDays({ year , month }: YearMonth): Promise<number[]> {
   return (await fs.readdir(path.resolve(
     BLOG_DIR,
     year.toString(),
-    month.toString().padStart(2, '0')
+    padTwo(month)
   )))
   .filter((day) => DAY_REGEX.test(day))
   .map((day) => parseInt(day))
@@ -39,8 +40,8 @@ async function getIndices({ year, month, day }: YearMonthDay): Promise<number[]>
   return (await fs.readdir(path.resolve(
     BLOG_DIR,
     year.toString(),
-    month.toString().padStart(2, '0'),
-    day.toString().padStart(2, '0')
+    padTwo(month),
+    padTwo(day)
   )))
   .filter((index) => INDEX_REGEX.test(index))
   .map((index) => parseInt(index))
@@ -66,8 +67,8 @@ async function getArticle({
   const dir = path.resolve(
     BLOG_DIR,
     year.toString(),
-    month.toString().padStart(2, '0'),
-    day.toString().padStart(2, '0'),
+    padTwo(month),
+    padTwo(day),
     index.toString()
   )
   const file = (await fs.readdir(dir))[0]
