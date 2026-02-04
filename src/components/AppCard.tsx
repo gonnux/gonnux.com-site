@@ -1,4 +1,3 @@
-import { styled } from '@mui/material/styles'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
@@ -7,46 +6,25 @@ import Typography from '@mui/material/Typography'
 import { FC } from 'react'
 import Box from '@mui/material/Box'
 
-const PREFIX = 'AppCard'
-
-const classes = {
-  cardMedia: `${PREFIX}-cardMedia`,
-  cardContent: `${PREFIX}-cardContent`
-}
-
-const StyledCard = styled(Card)((
-  {
-    theme
-  }
-) => ({
-  [`& .${classes.cardMedia}`]: {
-    display: 'inline-block',
-    height: '0',
-    paddingBottom: '100%',
-    width: '100%',
-  },
-
-  [`& .${classes.cardContent}`]: {
-    padding: theme.spacing(0),
-  }
-}))
-
-const AppCard: FC<{name: string, image: string}> = (props) => {
+const AppCard: FC<{ name: string; image: string }> = ({ name, image }) => {
   return (
     <Box component="article">
-      <StyledCard elevation={0}>
+      <Card elevation={0}>
         <CardActionArea>
           <CardMedia
-            className={classes.cardMedia}
-            image={props.image}
+            image={image}
+            sx={{
+              display: 'inline-block',
+              height: 0,
+              paddingBottom: '100%',
+              width: '100%',
+            }}
           />
-          <CardContent component="footer" className={classes.cardContent}>
-            <Typography align="center">
-              {props.name}
-            </Typography>
+          <CardContent component="footer" sx={{ padding: 0 }}>
+            <Typography align="center">{name}</Typography>
           </CardContent>
         </CardActionArea>
-      </StyledCard>
+      </Card>
     </Box>
   )
 }

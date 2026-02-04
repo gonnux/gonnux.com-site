@@ -1,4 +1,3 @@
-import { styled } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar'
 import AppsIcon from '@mui/icons-material/Apps'
 import Box from '@mui/material/Box'
@@ -14,21 +13,9 @@ import ListAltIcon from '@mui/icons-material/ListAlt'
 import MessageIcon from '@mui/icons-material/Message'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { colorModeState } from '@/states/colorMode'
 import { useRecoilState } from 'recoil'
-
-const PREFIX = 'AppBar';
-
-const classes = {
-  appBar: `${PREFIX}-appBar`
-};
-
-const StyledMuiAppBar = styled(MuiAppBar)(() => ({
-  [`&.${classes.appBar}`]: {
-    flexGrow: 1,
-  }
-}));
 
 interface LinkIcon {
   [0]: string,
@@ -45,20 +32,19 @@ const linkIcons: LinkIcon[] = [
 
 const ColorModeButton: FC = () => {
   const [colorMode, setColorMode] = useRecoilState(colorModeState)
-  return (<>
+  return (
     <IconButton
       color="inherit"
-      onClick={() => setColorMode(colorMode === 'light' ? 'dark' : 'light') }
+      onClick={() => setColorMode(colorMode === 'light' ? 'dark' : 'light')}
     >
-      { colorMode === 'light' ? <Brightness3Icon /> : <Brightness5Icon /> }
+      {colorMode === 'light' ? <Brightness3Icon /> : <Brightness5Icon />}
     </IconButton>
-  </>)
+  )
 }
 
 const AppBar: FC = () => {
-
   return (
-    <StyledMuiAppBar position="static" className={classes.appBar} elevation={0}>
+    <MuiAppBar position="static" elevation={0} sx={{ flexGrow: 1 }}>
       <Toolbar>
         <Container maxWidth="sm">
           <Box component="header" display="flex" justifyContent="center">
@@ -68,19 +54,17 @@ const AppBar: FC = () => {
           </Box>
           <Divider />
           <Box component="nav" display="flex" justifyContent="center">
-            {
-              linkIcons.map((linkIcon) => (
-                <IconButton key={linkIcon[0]} color="inherit" component={Link} href={linkIcon[0]}>
-                  {linkIcon[1]}
-                </IconButton>
-              ))
-            }
+            {linkIcons.map((linkIcon) => (
+              <IconButton key={linkIcon[0]} color="inherit" component={Link} href={linkIcon[0]}>
+                {linkIcon[1]}
+              </IconButton>
+            ))}
             <ColorModeButton />
           </Box>
         </Container>
       </Toolbar>
-    </StyledMuiAppBar>
-  );
+    </MuiAppBar>
+  )
 }
 
 export default AppBar
