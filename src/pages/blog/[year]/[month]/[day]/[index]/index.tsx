@@ -64,7 +64,7 @@ const ArticlePage: NextLayoutPage<{ site: Site, article: Article }> = (props) =>
   const disqusShortName = process.env.NEXT_PUBLIC_DISQUS_SHORTNAME
   const articleUrl = getArticleUrl(props.article)
   const disqusConfig = {
-    url: `https://gonnux.com${articleUrl}`,
+    url: `${props.site.url}${articleUrl}`,
     identifier: articleUrl,
     title: props.article.title
   }
