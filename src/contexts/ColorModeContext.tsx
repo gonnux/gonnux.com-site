@@ -1,5 +1,6 @@
 import type { ReactNode, FC } from 'react'
 import { createContext, useContext, useCallback, useSyncExternalStore } from 'react'
+import { ThemeProvider as NextThemesProvider, useTheme } from 'next-themes'
 
 type ColorMode = 'light' | 'dark'
 
@@ -10,44 +11,48 @@ interface ColorModeContextType {
 
 const ColorModeContext = createContext<ColorModeContextType | undefined>(undefined)
 
-const STORAGE_KEY = 'color-mode'
+// 클라이언트 마운트 감지를 위한 useSyncExternalStore 패턴
+const emptySubscribe = () => () => {}
+const getClientSnapshot = () => true
+const getServerSnapshot = () => false
 
-// localStorage를 외부 스토어로 사용 (useSyncExternalStore 패턴)
-function subscribe(callback: () => void) {
-  window.addEventListener('storage', callback)
-  return () => window.removeEventListener('storage', callback)
+function useIsMounted() {
+  return useSyncExternalStore(emptySubscribe, getClientSnapshot, getServerSnapshot)
 }
 
-function getSnapshot(): ColorMode {
-  const stored = localStorage.getItem(STORAGE_KEY)
-  if (stored === 'light' || stored === 'dark') {
-    return stored
-  }
-  // 시스템 설정 확인
-  if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-    return 'light'
-  }
-  return 'dark'
-}
+// next-themes 래퍼 - 기존 useColorMode API 유지
+const ColorModeContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
+  const { resolvedTheme, setTheme } = useTheme()
+  const isMounted = useIsMounted()
 
-function getServerSnapshot(): ColorMode {
-  return 'dark' // SSR 기본값
-}
-
-export const ColorModeProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const colorMode = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+  // SSR 및 마운트 전에는 dark를 기본값으로 사용 (하이드레이션 불일치 방지)
+  const colorMode: ColorMode = isMounted ? (resolvedTheme as ColorMode) ?? 'dark' : 'dark'
 
   const toggleColorMode = useCallback(() => {
-    const next = colorMode === 'light' ? 'dark' : 'light'
-    localStorage.setItem(STORAGE_KEY, next)
-    // storage 이벤트는 같은 탭에서는 발생하지 않으므로 수동으로 리렌더 트리거
-    window.dispatchEvent(new StorageEvent('storage', { key: STORAGE_KEY }))
-  }, [colorMode])
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
+  }, [resolvedTheme, setTheme])
 
   return (
     <ColorModeContext.Provider value={{ colorMode, toggleColorMode }}>
       {children}
     </ColorModeContext.Provider>
+  )
+}
+
+// next-themes ThemeProvider + ColorModeContext를 함께 제공
+export const ColorModeProvider: FC<{ children: ReactNode }> = ({ children }) => {
+  return (
+    <NextThemesProvider
+      attribute="class"
+      defaultTheme="dark"
+      enableSystem
+      disableTransitionOnChange
+      storageKey="color-mode"
+    >
+      <ColorModeContextProvider>
+        {children}
+      </ColorModeContextProvider>
+    </NextThemesProvider>
   )
 }
 
