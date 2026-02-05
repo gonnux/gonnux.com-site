@@ -3,7 +3,7 @@ import Document, { Html, Head, Main, NextScript } from 'next/document'
 export default class MyDocument extends Document {
   render() {
     return (
-      <Html lang="ko">
+      <Html lang="ko" suppressHydrationWarning>
         <Head>
           {/* 기본 메타 태그 */}
           <meta charSet="utf-8" />
@@ -17,12 +17,12 @@ export default class MyDocument extends Document {
           <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
           <link rel="manifest" href="/manifest.json" />
 
-          {/* Google Fonts */}
+          {/* Google Fonts - Inter (Tailwind default) */}
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
           <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
           />
 
           {/* AdSense - 일반 script 태그 사용 (next/script의 data-nscript 속성 문제 회피) */}
@@ -34,7 +34,7 @@ export default class MyDocument extends Document {
             />
           )}
         </Head>
-        <body>
+        <body className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 antialiased">
           <Main />
           <NextScript />
         </body>

@@ -1,9 +1,7 @@
-import type { FC, ReactNode } from 'react'
-import CssBaseline from '@mui/material/CssBaseline'
-import { ThemeProvider, createTheme } from '@mui/material/styles'
+import type { ReactNode } from 'react'
 import type { AppProps } from 'next/app'
 import Script from 'next/script'
-import { ColorModeProvider, useColorMode } from '@/contexts/ColorModeContext'
+import { ThemeProvider } from '@/contexts/ThemeProvider'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import '@/styles/globals.css'
 import 'highlight.js/styles/default.css'
@@ -16,22 +14,6 @@ type AppPropsWithLayout = AppProps & {
 
 const defaultGetLayout = (page: ReactNode): ReactNode => page
 
-const MyThemeProvider: FC<{children: ReactNode}> = ({ children }) => {
-  const { colorMode } = useColorMode()
-
-  const theme = createTheme({
-    palette: {
-      mode: colorMode,
-    },
-  })
-
-  return (
-    <ThemeProvider theme={theme}>
-      {children}
-    </ThemeProvider>
-  )
-}
-
 const App = ({
   Component,
   pageProps,
@@ -40,7 +22,12 @@ const App = ({
   const gaId = process.env.NEXT_PUBLIC_GA_ID
 
   return (
-    <ColorModeProvider>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="dark"
+      enableSystem
+      disableTransitionOnChange
+    >
       {gaId && (
         <>
           <Script
@@ -63,13 +50,10 @@ const App = ({
           />
         </>
       )}
-      <MyThemeProvider>
-        <CssBaseline />
-        <ErrorBoundary>
-          {getLayout(<Component {...pageProps} />)}
-        </ErrorBoundary>
-      </MyThemeProvider>
-    </ColorModeProvider>
+      <ErrorBoundary>
+        {getLayout(<Component {...pageProps} />)}
+      </ErrorBoundary>
+    </ThemeProvider>
   )
 }
 

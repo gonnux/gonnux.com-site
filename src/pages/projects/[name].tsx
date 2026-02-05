@@ -1,7 +1,5 @@
 import parse from 'html-react-parser'
-import Divider from '@mui/material/Divider'
-import GitHubIcon from '@mui/icons-material/GitHub'
-import IconButton from '@mui/material/IconButton'
+import { Github } from 'lucide-react'
 import Layout from '@/components/Layout'
 import SEO from '@/components/SEO'
 import type { Project, Site } from '@/config'
@@ -59,11 +57,17 @@ const ProjectPage: NextLayoutPage<{ site: Site, project: Project, markdown: stri
         canonical={`/projects/${props.project.name}`}
         ogImage={props.project.image}
       />
-      <IconButton component="a" href={props.project.git} target="_blank" rel="noopener noreferrer" color="inherit">
-        <GitHubIcon />
-      </IconButton>
-      <Divider />
-      { parse(props.markdown) }
+      <a
+        href={props.project.git}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        aria-label="GitHub repository"
+      >
+        <Github className="h-5 w-5" />
+      </a>
+      <hr className="border-gray-200 dark:border-gray-700 my-4" />
+      {parse(props.markdown)}
     </>
   )
 }

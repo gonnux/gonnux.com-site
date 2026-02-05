@@ -1,39 +1,37 @@
-import Box from '@mui/material/Box'
-import Divider from '@mui/material/Divider'
-import List from '@mui/material/List'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemText from '@mui/material/ListItemText'
 import type { FC } from 'react'
 import Link from 'next/link'
 import type { Article } from '@/blog'
 import { getArticleUrl } from '@/utils/url'
 import { compareArticlesDesc } from '@/utils/sort'
 
-const ArticleList: FC<{ articles: Article[] }> = (props) => {
+const ArticleList: FC<{ articles: Article[] }> = ({ articles }) => {
+  const sortedArticles = [...articles].sort(compareArticlesDesc)
+
   return (
-    <List component="section">
-      {
-        props
-          .articles
-          .sort(compareArticlesDesc)
-          .map((article, idx) => {
-            const articleUrl = getArticleUrl(article)
-            return (
-              <Box key={articleUrl} sx={{ wordBreak: 'break-all' }}>
-                <Link href={articleUrl}>
-                  <ListItemButton component="article">
-                    <ListItemText
-                      primary={article.title}
-                      secondary={article.excerpt.length > 60 ? article.excerpt.slice(0, 60) + '...' : article.excerpt}
-                    />
-                  </ListItemButton>
-                </Link>
-                { idx < props.articles.length - 1 && <Divider /> }
-              </Box>
-            )
-          })
-      }
-    </List>
+    <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+      {sortedArticles.map((article) => {
+        const articleUrl = getArticleUrl(article)
+        return (
+          <li key={articleUrl}>
+            <Link
+              href={articleUrl}
+              className="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors break-all"
+            >
+              <article>
+                <h3 className="text-base font-medium text-gray-900 dark:text-gray-100">
+                  {article.title}
+                </h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  {article.excerpt.length > 60
+                    ? article.excerpt.slice(0, 60) + '...'
+                    : article.excerpt}
+                </p>
+              </article>
+            </Link>
+          </li>
+        )
+      })}
+    </ul>
   )
 }
 

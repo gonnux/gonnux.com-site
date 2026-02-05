@@ -1,6 +1,3 @@
-import Box from '@mui/material/Box'
-import Divider from '@mui/material/Divider'
-import Typography from '@mui/material/Typography'
 import ArticleList from '@/components/ArticleList'
 import AppList from '@/components/AppList'
 import ProjectList from '@/components/ProjectList'
@@ -40,26 +37,26 @@ const IndexPage: NextLayoutPage<{ site: Site, articles: Article[], apps: App[], 
   return (
     <>
       <SEO site={props.site} canonical="/" />
-      <Box component="section">
-        <Box component="header">
-          <Typography variant="h5">Apps</Typography>
-        </Box>
+      <section className="mb-6">
+        <header className="mb-2">
+          <h2 className="text-xl font-medium text-gray-900 dark:text-gray-100">Apps</h2>
+        </header>
         <AppList apps={props.apps} />
-      </Box>
-      <Divider />
-      <Box component="section">
-        <Box component="header">
-          <Typography variant="h5">Projects</Typography>
-        </Box>
+      </section>
+      <hr className="border-gray-200 dark:border-gray-700 my-6" />
+      <section className="mb-6">
+        <header className="mb-2">
+          <h2 className="text-xl font-medium text-gray-900 dark:text-gray-100">Projects</h2>
+        </header>
         <ProjectList projects={props.projects} />
-      </Box>
-      <Divider />
-      <Box component="section">
-        <Box component="header">
-          <Typography variant="h5">Articles</Typography>
-        </Box>
+      </section>
+      <hr className="border-gray-200 dark:border-gray-700 my-6" />
+      <section>
+        <header className="mb-2">
+          <h2 className="text-xl font-medium text-gray-900 dark:text-gray-100">Articles</h2>
+        </header>
         <ArticleList articles={props.articles} />
-      </Box>
+      </section>
     </>
   )
 }
