@@ -1,5 +1,4 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
-import Script from 'next/script'
 
 export default class MyDocument extends Document {
   render() {
@@ -26,11 +25,9 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
 
-          {/* AdSense */}
+          {/* AdSense - 일반 script 태그 사용 (next/script의 data-nscript 속성 문제 회피) */}
           {process.env.NEXT_PUBLIC_ADSENSE_ID && (
-            <Script
-              id="adsense"
-              strategy="afterInteractive"
+            <script
               async
               src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
               crossOrigin="anonymous"
