@@ -10,7 +10,7 @@ interface ColorModeContextType {
 const ColorModeContext = createContext<ColorModeContextType | undefined>(undefined)
 
 export const ColorModeProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [colorMode, setColorMode] = useState<ColorMode>('light')
+  const [colorMode, setColorMode] = useState<ColorMode>('dark')
 
   const toggleColorMode = () => {
     setColorMode((prev) => (prev === 'light' ? 'dark' : 'light'))
