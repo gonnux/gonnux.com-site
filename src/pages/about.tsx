@@ -1,9 +1,9 @@
 import parse from 'html-react-parser'
 import Layout from '@/components/Layout'
 import SEO from '@/components/SEO'
-import { Site } from '@/config'
-import { GetStaticProps } from 'next'
-import { NextLayoutPage } from '@/types/layout'
+import type { Site } from '@/config'
+import type { GetStaticProps } from 'next'
+import type { NextLayoutPage } from '@/types/layout'
 import Box from '@mui/material/Box'
 
 export const getStaticProps: GetStaticProps<{ site: Site, about: string}> = async () => {

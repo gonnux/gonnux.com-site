@@ -1,9 +1,10 @@
-import { FC, ReactNode } from 'react'
+import type { FC, ReactNode } from 'react'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { AppProps } from 'next/app'
+import type { AppProps } from 'next/app'
 import Script from 'next/script'
 import { ColorModeProvider, useColorMode } from '@/contexts/ColorModeContext'
+import ErrorBoundary from '@/components/ErrorBoundary'
 import '@/styles/globals.css'
 import 'highlight.js/styles/default.css'
 
@@ -64,7 +65,9 @@ const App = ({
       )}
       <MyThemeProvider>
         <CssBaseline />
-        {getLayout(<Component {...pageProps} />)}
+        <ErrorBoundary>
+          {getLayout(<Component {...pageProps} />)}
+        </ErrorBoundary>
       </MyThemeProvider>
     </ColorModeProvider>
   )

@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography'
-import { ReactNode } from 'react'
-import { NextLayoutPage } from '@/types/layout'
+import type { ReactNode } from 'react'
+import type { NextLayoutPage } from '@/types/layout'
 import Layout from '@/components/Layout'
 
 const NotFoundPage: NextLayoutPage = () => {

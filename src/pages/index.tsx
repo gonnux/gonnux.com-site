@@ -6,10 +6,10 @@ import AppList from '@/components/AppList'
 import ProjectList from '@/components/ProjectList'
 import Layout from '@/components/Layout'
 import SEO from '@/components/SEO'
-import { Article } from '@/blog'
-import { GetStaticProps } from 'next'
-import { NextLayoutPage } from '@/types/layout'
-import { App, Project, Site } from '@/config'
+import type { Article } from '@/blog'
+import type { GetStaticProps } from 'next'
+import type { NextLayoutPage } from '@/types/layout'
+import type { App, Project, Site } from '@/config'
 
 export const getStaticProps: GetStaticProps = async() => {
 

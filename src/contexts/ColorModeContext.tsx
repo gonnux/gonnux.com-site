@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, ReactNode, FC } from 'react'
+import type { ReactNode, FC } from 'react';
+import { createContext, useContext, useState } from 'react'
 
 type ColorMode = 'light' | 'dark'
 

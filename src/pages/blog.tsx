@@ -1,10 +1,10 @@
 import ArticleList from '@/components/ArticleList'
 import Layout from '@/components/Layout'
 import SEO from '@/components/SEO'
-import { Article } from '@/blog'
-import { Site } from '@/config'
-import { GetStaticProps } from 'next'
-import { NextLayoutPage } from '@/types/layout'
+import type { Article } from '@/blog'
+import type { Site } from '@/config'
+import type { GetStaticProps } from 'next'
+import type { NextLayoutPage } from '@/types/layout'
 
 export const getStaticProps: GetStaticProps = async () => {
 

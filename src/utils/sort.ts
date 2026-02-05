@@ -1,4 +1,4 @@
-import { Article, YearMonthDayIndex } from '@/blog'
+import type { Article, YearMonthDayIndex } from '@/blog'
 
 // 게시글을 최신순으로 정렬 (년 > 월 > 일 > 인덱스)
 export function compareArticlesDesc(a: Article | YearMonthDayIndex, b: Article | YearMonthDayIndex): number {

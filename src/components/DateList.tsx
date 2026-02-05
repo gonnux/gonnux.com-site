@@ -2,7 +2,8 @@ import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
-import { FC, Fragment } from 'react'
+import type { FC} from 'react';
+import { Fragment } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 

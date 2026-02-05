@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
-import { FC } from 'react'
+import type { FC } from 'react'
 
 const Footer: FC = () => {
   const githubRemoteUrl = process.env.NEXT_PUBLIC_GITHUB_REMOTE_URL

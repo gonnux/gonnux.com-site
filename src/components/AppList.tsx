@@ -1,5 +1,5 @@
-import { FC } from 'react'
-import { App } from '@/config'
+import type { FC } from 'react'
+import type { App } from '@/config'
 import GridCardList from './GridCardList'
 
 const AppList: FC<{ apps: App[] }> = ({ apps }) => (

@@ -13,7 +13,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt'
 import MessageIcon from '@mui/icons-material/Message'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import { FC } from 'react'
+import type { FC } from 'react'
 import { useColorMode } from '@/contexts/ColorModeContext'
 
 interface LinkIcon {

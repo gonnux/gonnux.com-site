@@ -2,12 +2,11 @@ import parse from 'html-react-parser'
 import Divider from '@mui/material/Divider'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import IconButton from '@mui/material/IconButton'
-import Link from 'next/link'
 import Layout from '@/components/Layout'
 import SEO from '@/components/SEO'
-import { Project, Site } from '@/config'
-import { GetStaticPaths, GetStaticProps } from 'next'
-import { NextLayoutPage } from '@/types/layout'
+import type { Project, Site } from '@/config'
+import type { GetStaticPaths, GetStaticProps } from 'next'
+import type { NextLayoutPage } from '@/types/layout'
 
 export const getStaticPaths: GetStaticPaths = async () => {
 
@@ -58,13 +57,9 @@ const ProjectPage: NextLayoutPage<{ site: Site, project: Project, markdown: stri
         canonical={`/projects/${props.project.name}`}
         ogImage={props.project.image}
       />
-      <Link href={props.project.git}>
-        <a>
-          <IconButton color="inherit">
-            <GitHubIcon />
-          </IconButton>
-        </a>
-      </Link>
+      <IconButton component="a" href={props.project.git} target="_blank" rel="noopener noreferrer" color="inherit">
+        <GitHubIcon />
+      </IconButton>
       <Divider />
       { parse(props.markdown) }
     </>

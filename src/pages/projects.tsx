@@ -1,9 +1,9 @@
 import Layout from '@/components/Layout'
 import ProjectList from '@/components/ProjectList'
 import SEO from '@/components/SEO'
-import { Project, Site } from '@/config'
-import { GetStaticProps } from 'next'
-import { NextLayoutPage } from '@/types/layout'
+import type { Project, Site } from '@/config'
+import type { GetStaticProps } from 'next'
+import type { NextLayoutPage } from '@/types/layout'
 
 export const getStaticProps: GetStaticProps = async() => {
 

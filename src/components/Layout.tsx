@@ -1,6 +1,6 @@
 import Container from '@mui/material/Container'
 import Divider from '@mui/material/Divider'
-import { FC, ReactNode } from 'react'
+import type { FC, ReactNode } from 'react'
 import AppBar from './AppBar'
 import Footer from './Footer'
 
