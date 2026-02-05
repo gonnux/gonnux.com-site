@@ -10,6 +10,7 @@ export const getStaticProps: GetStaticProps<{site: Site, apps: App[]}> = async()
   const { site, apps } = config
   return {
     props: { site, apps },
+    revalidate: 3600, // ISR: regenerate every hour
   }
 }
 

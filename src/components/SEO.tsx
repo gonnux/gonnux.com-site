@@ -16,8 +16,7 @@ interface SEOProps {
   noindex?: boolean
 }
 
-// 재사용 가능한 SEO 컴포넌트
-// 모든 페이지에서 일관된 메타데이터를 제공
+// Reusable SEO component for consistent metadata across all pages
 const SEO: FC<SEOProps> = ({
   site,
   title,
@@ -34,13 +33,13 @@ const SEO: FC<SEOProps> = ({
 
   return (
     <Head>
-      {/* 기본 메타 태그 */}
+      {/* Basic meta tags */}
       <title>{fullTitle}</title>
       <meta name="description" content={metaDescription} />
       {noindex && <meta name="robots" content="noindex, nofollow" />}
       {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
 
-      {/* Open Graph 태그 - 소셜 미디어 공유용 */}
+      {/* Open Graph tags for social media sharing */}
       <meta property="og:site_name" content={site.name} />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={metaDescription} />
@@ -55,13 +54,54 @@ const SEO: FC<SEOProps> = ({
       <meta name="twitter:description" content={metaDescription} />
       {ogImage && <meta name="twitter:image" content={ogImage} />}
 
-      {/* 게시글 전용 메타 태그 */}
+      {/* Article meta tags */}
       {article && (
         <>
           <meta property="article:published_time" content={article.publishedTime} />
           <meta property="article:author" content={article.author ?? site.author} />
         </>
       )}
+
+      {/* JSON-LD structured data for rich search results */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            article
+              ? {
+                  '@context': 'https://schema.org',
+                  '@type': 'BlogPosting',
+                  headline: fullTitle,
+                  description: metaDescription,
+                  image: ogImage,
+                  datePublished: article.publishedTime,
+                  author: {
+                    '@type': 'Person',
+                    name: article.author ?? site.author,
+                  },
+                  publisher: {
+                    '@type': 'Person',
+                    name: site.author,
+                  },
+                  mainEntityOfPage: {
+                    '@type': 'WebPage',
+                    '@id': canonicalUrl,
+                  },
+                }
+              : {
+                  '@context': 'https://schema.org',
+                  '@type': 'WebSite',
+                  name: site.name,
+                  url: site.url,
+                  description: metaDescription,
+                  author: {
+                    '@type': 'Person',
+                    name: site.author,
+                  },
+                }
+          ),
+        }}
+      />
     </Head>
   )
 }

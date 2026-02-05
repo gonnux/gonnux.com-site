@@ -16,24 +16,32 @@ import Typography from '@mui/material/Typography'
 import type { FC } from 'react'
 import { useColorMode } from '@/contexts/ColorModeContext'
 
-interface LinkIcon {
-  [0]: string,
-  [1]: React.ReactNode
+interface NavLink {
+  href: string
+  icon: React.ReactNode
+  label: string
+  external?: boolean
 }
 
-const linkIcons: LinkIcon[] = [
-  ['/apps', <AppsIcon key='apps'/>],
-  ['/projects', <ListAltIcon key='projects'/>],
-  ['/blog', <MessageIcon key='blog'/>],
-  ['/about', <InfoIcon key='about'/>],
-  ['https://github.com/binkoni', <GitHubIcon key='github'/>],
+const navLinks: NavLink[] = [
+  { href: '/apps', icon: <AppsIcon />, label: 'Apps' },
+  { href: '/projects', icon: <ListAltIcon />, label: 'Projects' },
+  { href: '/blog', icon: <MessageIcon />, label: 'Blog' },
+  { href: '/about', icon: <InfoIcon />, label: 'About' },
+  { href: 'https://github.com/binkoni', icon: <GitHubIcon />, label: 'GitHub', external: true },
 ]
 
 const ColorModeButton: FC = () => {
   const { colorMode, toggleColorMode } = useColorMode()
+  const isDark = colorMode === 'dark'
   return (
-    <IconButton color="inherit" onClick={toggleColorMode}>
-      {colorMode === 'light' ? <Brightness3Icon /> : <Brightness5Icon />}
+    <IconButton
+      color="inherit"
+      onClick={toggleColorMode}
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      aria-pressed={isDark}
+    >
+      {isDark ? <Brightness5Icon /> : <Brightness3Icon />}
     </IconButton>
   )
 }
@@ -50,9 +58,16 @@ const AppBar: FC = () => {
           </Box>
           <Divider />
           <Box component="nav" display="flex" justifyContent="center">
-            {linkIcons.map((linkIcon) => (
-              <IconButton key={linkIcon[0]} color="inherit" component={Link} href={linkIcon[0]}>
-                {linkIcon[1]}
+            {navLinks.map((link) => (
+              <IconButton
+                key={link.href}
+                color="inherit"
+                component={Link}
+                href={link.href}
+                aria-label={link.label}
+                {...(link.external && { target: '_blank', rel: 'noopener noreferrer' })}
+              >
+                {link.icon}
               </IconButton>
             ))}
             <ColorModeButton />

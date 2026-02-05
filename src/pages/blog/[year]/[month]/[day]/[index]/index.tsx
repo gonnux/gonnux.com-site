@@ -57,6 +57,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   return {
     props: { site: config.site, article: await blog.getArticle(yearMonthDayIndex) },
+    revalidate: 86400, // ISR: regenerate daily (blog posts rarely change)
   }
 }
 
@@ -69,7 +70,7 @@ const ArticlePage: NextLayoutPage<{ site: Site, article: Article }> = (props) =>
     title: props.article.title
   }
 
-  // 게시글 발행일 생성 (ISO 8601 형식)
+  // Generate article publish date in ISO 8601 format
   const publishedTime = formatDate(props.article.year, props.article.month, props.article.day)
 
   return (

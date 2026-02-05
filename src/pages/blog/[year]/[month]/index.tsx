@@ -33,6 +33,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   return {
     props: { site: config.site, year, month, days },
+    revalidate: 3600, // ISR: regenerate every hour
   }
 }
 

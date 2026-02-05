@@ -16,11 +16,13 @@ export const getStaticProps: GetStaticProps<{ site: Site, about: string}> = asyn
     const about = await marked.parse(res.data)
     return {
       props: { site: config.site, about },
+      revalidate: 3600, // ISR: regenerate every hour
     }
   } catch (error) {
     console.error('Failed to fetch about markdown:', error)
     return {
-      props: { site: config.site, about: '<p>콘텐츠를 불러오는데 실패했습니다.</p>' },
+      props: { site: config.site, about: '<p>Failed to load content.</p>' },
+      revalidate: 60, // Retry sooner on error
     }
   }
 }

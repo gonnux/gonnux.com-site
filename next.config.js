@@ -3,7 +3,6 @@ const nextConfig = {
   output: 'standalone',
   reactStrictMode: true,
   images: {
-    // 외부 이미지 도메인 허용 (config.yaml의 apps/projects 이미지용)
     remotePatterns: [
       {
         protocol: 'https',
@@ -14,6 +13,48 @@ const nextConfig = {
         hostname: '**.githubusercontent.com',
       },
     ],
+  },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' www.googletagmanager.com pagead2.googlesyndication.com *.disqus.com *.disquscdn.com",
+              "style-src 'self' 'unsafe-inline' fonts.googleapis.com *.disquscdn.com",
+              "font-src 'self' fonts.gstatic.com",
+              "img-src 'self' data: https: blob:",
+              "connect-src 'self' www.google-analytics.com *.disqus.com",
+              "frame-src 'self' disqus.com *.disqus.com",
+              "frame-ancestors 'self'",
+            ].join('; '),
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
+          },
+        ],
+      },
+    ]
   },
 }
 
