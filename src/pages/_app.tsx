@@ -3,8 +3,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { AppProps } from 'next/app'
 import Script from 'next/script'
-import { RecoilRoot, useRecoilValue } from 'recoil'
-import { colorModeState } from '@/states/colorMode'
+import { ColorModeProvider, useColorMode } from '@/contexts/ColorModeContext'
 import '@/styles/globals.css'
 import 'highlight.js/styles/default.css'
 
@@ -16,8 +15,8 @@ type AppPropsWithLayout = AppProps & {
 
 const defaultGetLayout = (page: ReactNode): ReactNode => page
 
-const MyThemeProvider: FC<{children: ReactNode}> = (props) => {
-  const colorMode = useRecoilValue(colorModeState)
+const MyThemeProvider: FC<{children: ReactNode}> = ({ children }) => {
+  const { colorMode } = useColorMode()
 
   const theme = createTheme({
     palette: {
@@ -27,7 +26,7 @@ const MyThemeProvider: FC<{children: ReactNode}> = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      { props.children }
+      {children}
     </ThemeProvider>
   )
 }
@@ -36,14 +35,11 @@ const App = ({
   Component,
   pageProps,
 }: AppPropsWithLayout) => {
-
   const getLayout = Component.getLayout ?? defaultGetLayout
-
-
   const gaId = process.env.NEXT_PUBLIC_GA_ID
 
   return (
-    <RecoilRoot>
+    <ColorModeProvider>
       {gaId && (
         <>
           <Script
@@ -68,9 +64,9 @@ const App = ({
       )}
       <MyThemeProvider>
         <CssBaseline />
-        { getLayout(<Component {...pageProps} />) }
+        {getLayout(<Component {...pageProps} />)}
       </MyThemeProvider>
-    </RecoilRoot>
+    </ColorModeProvider>
   )
 }
 

@@ -25,8 +25,7 @@
     "marked": "^4.0.14",
     "next": "^14",
     "react": "^18",
-    "react-dom": "^18",
-    "recoil": "^0.7.6"
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14",

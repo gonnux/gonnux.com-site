@@ -14,8 +14,7 @@ import MessageIcon from '@mui/icons-material/Message'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { FC } from 'react'
-import { colorModeState } from '@/states/colorMode'
-import { useRecoilState } from 'recoil'
+import { useColorMode } from '@/contexts/ColorModeContext'
 
 interface LinkIcon {
   [0]: string,
@@ -31,12 +30,9 @@ const linkIcons: LinkIcon[] = [
 ]
 
 const ColorModeButton: FC = () => {
-  const [colorMode, setColorMode] = useRecoilState(colorModeState)
+  const { colorMode, toggleColorMode } = useColorMode()
   return (
-    <IconButton
-      color="inherit"
-      onClick={() => setColorMode(colorMode === 'light' ? 'dark' : 'light')}
-    >
+    <IconButton color="inherit" onClick={toggleColorMode}>
       {colorMode === 'light' ? <Brightness3Icon /> : <Brightness5Icon />}
     </IconButton>
   )
