@@ -13,7 +13,7 @@ export const getStaticProps: GetStaticProps<{ site: Site, about: string}> = asyn
 
   try {
     const res = await axios.get(config.about.markdown)
-    const about = marked.parse(res.data)
+    const about = await marked.parse(res.data)
     return {
       props: { site: config.site, about },
     }

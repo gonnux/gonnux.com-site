@@ -73,9 +73,8 @@ async function getArticle({
   )
   const file = (await fs.readdir(dir))[0]
   const title = path.parse(file).name
-  const content = await fs
-    .readFile(path.resolve(dir, file), 'utf8')
-    .then((text) => marked.parse(text))
+  const text = await fs.readFile(path.resolve(dir, file), 'utf8')
+  const content = await marked.parse(text)
   const excerpt = createExcerpt(content)
   return {
     year,

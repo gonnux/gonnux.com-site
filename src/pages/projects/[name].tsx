@@ -35,7 +35,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   try {
     const res = await axios.get(project!.readme)
-    const markdown = marked.parse(res.data) as string
+    const markdown = await marked.parse(res.data)
 
     return {
       props: { site, project, markdown },

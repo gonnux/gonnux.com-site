@@ -1,18 +1,22 @@
 import { marked } from 'marked'
+import { markedHighlight } from 'marked-highlight'
 import hljs from 'highlight.js'
 
+// marked v17: highlight 옵션이 제거되어 marked-highlight 패키지 사용
+marked.use(
+  markedHighlight({
+    langPrefix: 'hljs language-',
+    highlight(code: string, lang: string) {
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext'
+      return hljs.highlight(code, { language }).value
+    },
+  })
+)
+
 marked.setOptions({
-  renderer: new marked.Renderer(),
-  highlight: function(code, lang) {
-    const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-    return hljs.highlight(code, { language }).value;
-  },
-  langPrefix: 'hljs language-', // highlight.js css expects a top-level 'hljs' class.
   pedantic: false,
   gfm: true,
   breaks: false,
-  smartypants: false,
-  xhtml: false
 })
 
 export default marked
