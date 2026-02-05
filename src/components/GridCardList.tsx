@@ -1,3 +1,4 @@
+import Grid from '@mui/material/Grid'
 import Link from 'next/link'
 import { EMPTY_IMAGE } from '@/constants'
 import AppCard from './AppCard'
@@ -12,25 +13,21 @@ interface GridCardListProps<T> {
 
 // 제네릭 그리드 카드 리스트 컴포넌트
 // AppList와 ProjectList의 공통 로직을 추출
-function GridCardList<T>({
-  items,
-  getUrl,
-  getName,
-  getImage,
-  component: Component = 'div',
-}: GridCardListProps<T>) {
+function GridCardList<T>({ items, getUrl, getName, getImage, component = 'div' }: GridCardListProps<T>) {
   return (
-    <Component className="grid grid-cols-4 md:grid-cols-6 gap-4">
+    <Grid component={component} container spacing={2}>
       {items.map((item) => {
         const url = getUrl(item)
         const name = getName(item)
         return (
-          <Link key={name} href={url}>
-            <AppCard name={name} image={getImage(item) ?? EMPTY_IMAGE} />
-          </Link>
+          <Grid key={name} size={{ xs: 3, md: 2 }}>
+            <Link href={url}>
+              <AppCard name={name} image={getImage(item) ?? EMPTY_IMAGE} />
+            </Link>
+          </Grid>
         )
       })}
-    </Component>
+    </Grid>
   )
 }
 

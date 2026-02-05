@@ -1,3 +1,5 @@
+import Container from '@mui/material/Container'
+import Divider from '@mui/material/Divider'
 import type { FC, ReactNode } from 'react'
 import AppBar from './AppBar'
 import Footer from './Footer'
@@ -6,11 +8,19 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <>
       <AppBar />
-      <hr className="border-gray-200 dark:border-gray-700" />
-      <main className="mx-auto max-w-[900px] px-4 py-4 overflow-x-auto">
+      <Divider />
+      <Container
+        component="main"
+        maxWidth="md"
+        sx={{
+          paddingTop: 2,
+          paddingBottom: 2,
+          overflowX: 'auto',
+        }}
+      >
         {children}
-      </main>
-      <hr className="border-gray-200 dark:border-gray-700" />
+      </Container>
+      <Divider />
       <Footer />
     </>
   )

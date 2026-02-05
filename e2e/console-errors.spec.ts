@@ -51,27 +51,17 @@ test('Dark mode toggle works', async ({ page }) => {
     .first()
 
   if (await darkModeButton.isVisible()) {
-    // Use force: true to bypass Next.js dev mode portal overlay
-    await darkModeButton.click({ force: true })
+    await darkModeButton.click()
   }
 })
 
 // Navigation test
 test('Navigation links work', async ({ page }) => {
   await page.goto('/')
-  await page.waitForLoadState('networkidle')
 
-  // Navigate to blog using JavaScript click to bypass portal overlay
-  await page.evaluate(() => {
-    const link = document.querySelector('a[aria-label="Blog"]') as HTMLAnchorElement
-    link?.click()
-  })
-  await expect(page).toHaveURL('/blog', { timeout: 10000 })
+  await page.click('a[href="/blog"]')
+  await expect(page).toHaveURL('/blog')
 
-  // Navigate home using the site title link
-  await page.evaluate(() => {
-    const link = document.querySelector('header a[href="/"]') as HTMLAnchorElement
-    link?.click()
-  })
-  await expect(page).toHaveURL('/', { timeout: 10000 })
+  await page.click('a[href="/"]')
+  await expect(page).toHaveURL('/')
 })

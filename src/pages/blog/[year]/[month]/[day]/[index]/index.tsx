@@ -1,5 +1,9 @@
 import parse from 'html-react-parser'
-import Link from 'next/link'
+import Box from '@mui/material/Box'
+import Breadcrumbs from '@mui/material/Breadcrumbs'
+import Divider from '@mui/material/Divider'
+import Link from '@mui/material/Link'
+import Typography from '@mui/material/Typography'
 import type { GetStaticPaths, GetStaticProps } from 'next'
 import type { NextLayoutPage } from '@/types/layout'
 import Layout from '@/components/Layout'
@@ -9,6 +13,16 @@ import type { Site } from '@/config'
 import { getArticleUrl } from '@/utils/url'
 import { formatDate } from '@/utils/date'
 import { DiscussionEmbed } from "disqus-react"
+
+
+/*
+interface Params extends ParsedUrlQuery {
+  year: string,
+  month: string,
+  day: string,
+  index: string
+}
+*/
 
 export const getStaticPaths: GetStaticPaths = async () => {
 
@@ -71,48 +85,35 @@ const ArticlePage: NextLayoutPage<{ site: Site, article: Article }> = (props) =>
           publishedTime,
         }}
       />
-      <h1 className="text-2xl font-normal text-gray-900 dark:text-gray-100 mb-2">
-        {props.article.title}
-      </h1>
-      <nav aria-label="Breadcrumb" className="mb-4">
-        <ol className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
-          <li>
-            <Link href={`/blog/${props.article.year}`} className="hover:underline">
-              {props.article.year}
-            </Link>
-          </li>
-          <li className="text-gray-400">&gt;</li>
-          <li>
-            <Link href={`/blog/${props.article.year}/${props.article.month}`} className="hover:underline">
-              {props.article.month}
-            </Link>
-          </li>
-          <li className="text-gray-400">&gt;</li>
-          <li>
-            <Link href={`/blog/${props.article.year}/${props.article.month}/${props.article.day}`} className="hover:underline">
-              {props.article.day}
-            </Link>
-          </li>
-          <li className="text-gray-400">&gt;</li>
-          <li>
-            <Link
-              href={`/blog/${props.article.year}/${props.article.month}/${props.article.day}/${props.article.index}`}
-              className="hover:underline"
-            >
-              {props.article.index}
-            </Link>
-          </li>
-        </ol>
-      </nav>
-      <hr className="border-gray-200 dark:border-gray-700 my-4" />
-      <article className="prose dark:prose-invert max-w-none">
-        {parse(props.article.content)}
-      </article>
-      <hr className="border-gray-200 dark:border-gray-700 my-4" />
+      <Typography variant="h4">
+        { props.article.title }
+      </Typography>
+      <Breadcrumbs>
+        <Link color="inherit" href={`/blog/${props.article.year}`}>
+          { props.article.year }
+        </Link>
+        <Link color="inherit" href={`/blog/${props.article.year}/${props.article.month}`}>
+          { props.article.month }
+        </Link>
+        <Link color="inherit" href={`/blog/${props.article.year}/${props.article.month}/${props.article.day}`}>
+          { props.article.day }
+        </Link>
+        <Link
+          color="inherit"
+          href={`/blog/${props.article.year}/${props.article.month}/${props.article.day}/${props.article.index}`}
+        >
+          { props.article.index }
+        </Link>
+      </Breadcrumbs>
+      <Divider />
+      <Box component="article">
+        { parse(props.article.content) }
+      </Box>
+      <Divider />
       {disqusShortName && (
         <DiscussionEmbed
-          shortname={disqusShortName}
-          config={disqusConfig}
+          shortname={ disqusShortName }
+          config={ disqusConfig }
         />
       )}
     </>
