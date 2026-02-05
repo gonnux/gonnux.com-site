@@ -22,7 +22,10 @@ const ArticleList: FC<{ articles: Article[] }> = (props) => {
               <Box key={articleUrl} sx={{ wordBreak: 'break-all' }}>
                 <Link href={articleUrl}>
                   <ListItemButton component="article">
-                    <ListItemText primary={article.title} secondary={article.excerpt} />
+                    <ListItemText
+                      primary={article.title}
+                      secondary={article.excerpt.length > 60 ? article.excerpt.slice(0, 60) + '...' : article.excerpt}
+                    />
                   </ListItemButton>
                 </Link>
                 { idx < props.articles.length - 1 && <Divider /> }
