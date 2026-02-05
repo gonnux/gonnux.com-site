@@ -8,8 +8,15 @@ export default class MyDocument extends Document {
         <Head>
           {/* 기본 메타 태그 */}
           <meta charSet="utf-8" />
-          <meta name="theme-color" content="#1976d2" />
+
+          {/* 테마 색상 - 라이트/다크 모드별 */}
+          <meta name="theme-color" content="#1976d2" media="(prefers-color-scheme: light)" />
+          <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)" />
+
+          {/* 파비콘 및 앱 아이콘 */}
           <link rel="icon" href="/favicon.ico" />
+          <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+          <link rel="manifest" href="/manifest.json" />
 
           {/* Google Fonts */}
           <link rel="preconnect" href="https://fonts.googleapis.com" />
