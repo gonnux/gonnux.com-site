@@ -1,6 +1,6 @@
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import { FC, Fragment } from 'react'
 import Link from 'next/link'
@@ -14,9 +14,9 @@ const DateList: FC<{ dates: number[] }> = (props) => {
         props.dates.map((date, idx) => (
           <Fragment key={date}>
             <Link href={`${router.asPath}/${date}`}>
-              <ListItem button>
+              <ListItemButton>
                 <ListItemText primary={date} />
-              </ListItem>
+              </ListItemButton>
             </Link>
             { idx < props.dates.length - 1 && <Divider /> }
           </Fragment>

@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import { FC, Fragment } from 'react'
 import Link from 'next/link'
@@ -21,9 +21,9 @@ const ArticleList: FC<{ articles: Article[] }> = (props) => {
             return (
               <Box key={articleUrl} sx={{ wordBreak: 'break-all' }}>
                 <Link href={articleUrl}>
-                  <ListItem component="article" button>
+                  <ListItemButton component="article">
                     <ListItemText primary={article.title} secondary={`${article.content.split('\n')[0]}...`} />
-                  </ListItem>
+                  </ListItemButton>
                 </Link>
                 { idx < props.articles.length - 1 && <Divider /> }
               </Box>

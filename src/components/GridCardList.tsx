@@ -20,7 +20,7 @@ function GridCardList<T>({ items, getUrl, getName, getImage, component = 'div' }
         const url = getUrl(item)
         const name = getName(item)
         return (
-          <Grid key={name} item xs={3} md={2}>
+          <Grid key={name} size={{ xs: 3, md: 2 }}>
             <Link href={url}>
               <AppCard name={name} image={getImage(item) ?? EMPTY_IMAGE} />
             </Link>

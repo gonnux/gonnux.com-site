@@ -34,7 +34,7 @@ const AboutPage: NextLayoutPage<{ site: Site, about: string }> = (props) => {
         description="gonnux에 대해서 - 개발자 소개 및 프로필"
         canonical="/about"
       />
-      {parse(props.about) as JSX.Element}
+      {parse(props.about)}
     </>
   )
 }
