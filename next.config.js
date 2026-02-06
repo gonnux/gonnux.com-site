@@ -23,11 +23,11 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' www.googletagmanager.com pagead2.googlesyndication.com *.disqus.com *.disquscdn.com",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' www.googletagmanager.com pagead2.googlesyndication.com *.disqus.com *.disquscdn.com *.liadm.com",
               "style-src 'self' 'unsafe-inline' fonts.googleapis.com *.disquscdn.com",
               "font-src 'self' fonts.gstatic.com",
               "img-src 'self' data: https: blob:",
-              "connect-src 'self' www.google-analytics.com *.disqus.com *.google.com *.doubleclick.net *.googlesyndication.com *.adtrafficquality.google",
+              "connect-src 'self' www.google-analytics.com *.disqus.com *.google.com *.doubleclick.net *.googlesyndication.com *.adtrafficquality.google links.services.disqus.com",
               "frame-src 'self' disqus.com *.disqus.com *.google.com *.doubleclick.net *.googlesyndication.com tpc.googlesyndication.com",
               "frame-ancestors 'self'",
             ].join('; '),
