@@ -1,3 +1,11 @@
+/* Tailwind v4 - preflight 제외 (MUI CssBaseline과 충돌 방지) */
+@import "tailwindcss/theme";
+@import "tailwindcss/utilities";
+
+/* next-themes의 class="dark"에 맞춘 다크모드 variant */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 기존 글로벌 스타일 */
 * {
   max-width: 100%;
 }

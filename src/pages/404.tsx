@@ -1,8 +1,4 @@
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
-import HomeIcon from '@mui/icons-material/Home'
-import MessageIcon from '@mui/icons-material/Message'
+import { Home, MessageSquare } from 'lucide-react'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import type { NextLayoutPage } from '@/types/layout'
@@ -10,35 +6,33 @@ import Layout from '@/components/Layout'
 
 const NotFoundPage: NextLayoutPage = () => {
   return (
-    <Box sx={{ textAlign: 'center', py: 8 }}>
-      <Typography variant="h2" component="h1" gutterBottom>
+    <div className="text-center py-16">
+      <h1 className="text-5xl font-bold mb-4">
         404
-      </Typography>
-      <Typography variant="h5" color="text.secondary" sx={{ mb: 4 }}>
+      </h1>
+      <p className="text-xl text-gray-500 dark:text-gray-400 mb-8">
         Page not found
-      </Typography>
-      <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
+      </p>
+      <p className="text-base text-gray-500 dark:text-gray-400 mb-8">
         The page you are looking for does not exist.
-      </Typography>
-      <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
-        <Button
-          component={Link}
+      </p>
+      <div className="flex gap-2 justify-center flex-wrap">
+        <Link
           href="/"
-          variant="contained"
-          startIcon={<HomeIcon />}
+          className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
         >
+          <Home size={18} />
           Home
-        </Button>
-        <Button
-          component={Link}
+        </Link>
+        <Link
           href="/blog"
-          variant="outlined"
-          startIcon={<MessageIcon />}
+          className="inline-flex items-center gap-2 px-4 py-2 border border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400 rounded hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
         >
+          <MessageSquare size={18} />
           Blog
-        </Button>
-      </Box>
-    </Box>
+        </Link>
+      </div>
+    </div>
   )
 }
 
