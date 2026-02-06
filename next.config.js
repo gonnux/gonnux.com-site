@@ -23,7 +23,7 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' www.googletagmanager.com pagead2.googlesyndication.com *.disqus.com *.disquscdn.com *.liadm.com",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' www.googletagmanager.com pagead2.googlesyndication.com *.disqus.com *.disquscdn.com *.liadm.com *.adtrafficquality.google",
               "style-src 'self' 'unsafe-inline' fonts.googleapis.com *.disquscdn.com",
               "font-src 'self' fonts.gstatic.com",
               "img-src 'self' data: https: blob:",
