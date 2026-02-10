@@ -37,31 +37,25 @@ const App = ({
   pageProps,
 }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? defaultGetLayout
-  const gaId = process.env.NEXT_PUBLIC_GA_ID
+  const gtmId = process.env.NEXT_PUBLIC_GTM_ID
 
   return (
     <ColorModeProvider>
-      {gaId && (
-        <>
-          <Script
-            id="google-analytics-tag"
-            strategy="afterInteractive"
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-          />
-          <Script
-            id="google-analytics"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${gaId}');
-              `
-            }}
-          />
-        </>
+      {/* Google Tag Manager - GA4는 GTM 콘솔에서 태그로 설정 */}
+      {gtmId && (
+        <Script
+          id="google-tag-manager"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','${gtmId}');
+            `
+          }}
+        />
       )}
       <MyThemeProvider>
         <CssBaseline />

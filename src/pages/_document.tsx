@@ -35,6 +35,17 @@ export default class MyDocument extends Document {
           )}
         </Head>
         <body>
+          {/* Google Tag Manager (noscript) - JS 비활성화 환경에서도 기본 추적 지원 */}
+          {process.env.NEXT_PUBLIC_GTM_ID && (
+            <noscript>
+              <iframe
+                src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTM_ID}`}
+                height="0"
+                width="0"
+                style={{ display: 'none', visibility: 'hidden' }}
+              />
+            </noscript>
+          )}
           <Main />
           <NextScript />
         </body>
