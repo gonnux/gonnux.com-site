@@ -39,3 +39,6 @@ yarn-error.log*
 
 # Playwright
 .playwright-mcp/
+
+# Obsidian attachments (copied at build time)
+/public/attachments/
