@@ -9,7 +9,7 @@ const OBSIDIAN_DIR = path.resolve(process.env.OBSIDIAN_DIR ?? 'obsidian')
 
 export interface Article {
   slug: string       // 파일명 (확장자 제외, URL 경로로 사용)
-  title: string      // 첫 번째 # 제목 또는 파일명
+  title: string      // 본문 첫 줄 # 제목 또는 파일명
   created: string    // frontmatter created (YYYY-MM-DD)
   type: string       // frontmatter type (literature, permanent 등)
   tags: string[]     // frontmatter tags
@@ -33,11 +33,13 @@ function createExcerpt(html: string, maxLength: number = 150): string {
 }
 
 /**
- * 마크다운 본문에서 첫 번째 # 제목을 추출한다.
- * 없으면 파일명을 반환한다.
+ * 마크다운 본문의 첫 줄이 # 제목이면 추출한다.
+ * 첫 줄이 # 제목이 아니면 파일명을 반환한다.
+ * (multiline 매칭 시 문서 중간의 #을 제목으로 오인하는 버그 방지)
  */
 function extractTitle(content: string, slug: string): string {
-  const match = content.match(/^#\s+(.+)$/m)
+  const firstLine = content.trimStart().split('\n', 1)[0]
+  const match = firstLine.match(/^#\s+(.+)/)
   return match ? match[1].trim() : slug
 }
 
