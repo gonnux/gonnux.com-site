@@ -99,11 +99,17 @@ function getPublishedSlugs(): Set<string> {
   const slugs = new Set<string>()
 
   for (const filePath of files) {
-    const raw = fs.readFileSync(filePath, 'utf-8')
-    const { data } = matter(raw)
-    if (data.publish === true) {
-      const slug = path.basename(filePath, '.md')
-      slugs.add(slug)
+    try {
+      const raw = fs.readFileSync(filePath, 'utf-8')
+      const { data } = matter(raw)
+      if (data.publish === true) {
+        const slug = path.basename(filePath, '.md')
+        slugs.add(slug)
+      }
+    } catch {
+      // frontmatter 파싱 실패 시 해당 노트를 건너뛴다.
+      // vault 노트 중 YAML 문법에 맞지 않는 frontmatter가 있을 수 있다.
+      console.warn(`[blog] frontmatter 파싱 실패, 건너뜀: ${filePath}`)
     }
   }
 
@@ -120,25 +126,30 @@ export async function getAllArticles(): Promise<Article[]> {
   const articles: Article[] = []
 
   for (const filePath of files) {
-    const raw = fs.readFileSync(filePath, 'utf-8')
-    const { data } = matter(raw)
+    try {
+      const raw = fs.readFileSync(filePath, 'utf-8')
+      const { data } = matter(raw)
 
-    if (data.publish !== true) continue
+      if (data.publish !== true) continue
 
-    const slug = path.basename(filePath, '.md')
-    const transformed = transformObsidianMarkdown(raw, publishedSlugs)
-    const html = await marked.parse(transformed)
-    const title = extractTitle(transformed, slug)
+      const slug = path.basename(filePath, '.md')
+      const transformed = transformObsidianMarkdown(raw, publishedSlugs)
+      const html = await marked.parse(transformed)
+      const title = extractTitle(transformed, slug)
 
-    articles.push({
-      slug,
-      title,
-      created: formatCreated(data.created),
-      type: data.type ?? 'unknown',
-      tags: data.tags ?? [],
-      content: html,
-      excerpt: createExcerpt(html),
-    })
+      articles.push({
+        slug,
+        title,
+        created: formatCreated(data.created),
+        type: data.type ?? 'unknown',
+        tags: data.tags ?? [],
+        content: html,
+        excerpt: createExcerpt(html),
+      })
+    } catch {
+      // frontmatter 파싱 실패 시 해당 노트를 건너뛴다.
+      console.warn(`[blog] 노트 처리 실패, 건너뜀: ${filePath}`)
+    }
   }
 
   // created 날짜 역순 정렬
