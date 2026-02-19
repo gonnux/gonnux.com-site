@@ -1,156 +1,163 @@
-import { promises as fs } from 'fs'
+import fs from 'fs'
 import path from 'path'
+import matter from 'gray-matter'
 import marked from './marked'
-import { padTwo } from './utils/date'
+import { transformObsidianMarkdown } from './obsidian'
 
-const YEAR_REGEX = /^\d+$/
-const MONTH_REGEX = /^\d\d$/
-const DAY_REGEX = /^\d\d$/
-const INDEX_REGEX = /^\d+$/
-const BLOG_DIR = path.resolve(process.env.BLOG_DIR ?? 'blog')
+// OBSIDIAN_DIR 환경변수: vault 디렉토리 경로
+const OBSIDIAN_DIR = path.resolve(process.env.OBSIDIAN_DIR ?? 'obsidian')
 
-async function getYears(): Promise<number[]> {
-  return (await fs.readdir(BLOG_DIR))
-  .filter(YEAR_REGEX.test.bind(YEAR_REGEX))
-  .map((year) => parseInt(year))
+export interface Article {
+  slug: string       // 파일명 (확장자 제외, URL 경로로 사용)
+  title: string      // 첫 번째 # 제목 또는 파일명
+  created: string    // frontmatter created (YYYY-MM-DD)
+  type: string       // frontmatter type (literature, permanent 등)
+  tags: string[]     // frontmatter tags
+  content: string    // 렌더링된 HTML
+  excerpt: string    // 150자 미리보기
 }
 
-const getAllYears = getYears
-
-async function getMonths({ year }: { year: number }): Promise<number[]> {
-  return (await fs.readdir(path.resolve(
-    BLOG_DIR,
-    year.toString()
-  )))
-  .filter((month) => MONTH_REGEX.test(month))
-  .map((month) => parseInt(month))
-}
-
-async function getDays({ year , month }: YearMonth): Promise<number[]> {
-  return (await fs.readdir(path.resolve(
-    BLOG_DIR,
-    year.toString(),
-    padTwo(month)
-  )))
-  .filter((day) => DAY_REGEX.test(day))
-  .map((day) => parseInt(day))
-}
-
-async function getIndices({ year, month, day }: YearMonthDay): Promise<number[]> {
-  return (await fs.readdir(path.resolve(
-    BLOG_DIR,
-    year.toString(),
-    padTwo(month),
-    padTwo(day)
-  )))
-  .filter((index) => INDEX_REGEX.test(index))
-  .map((index) => parseInt(index))
-}
-
-// HTML 태그를 제거하고 텍스트만 추출하는 헬퍼 함수
+/**
+ * HTML 태그를 제거한다.
+ */
 function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim()
 }
 
-// 게시글 요약 생성 - SEO description에 사용
-function createExcerpt(content: string, maxLength: number = 150): string {
-  const text = stripHtml(content)
-  if (text.length <= maxLength) {
-    return text
+/**
+ * HTML에서 150자 미리보기를 추출한다.
+ */
+function createExcerpt(html: string, maxLength: number = 150): string {
+  const text = stripHtml(html)
+  return text.length > maxLength ? text.slice(0, maxLength).trim() + '...' : text
+}
+
+/**
+ * 마크다운 본문에서 첫 번째 # 제목을 추출한다.
+ * 없으면 파일명을 반환한다.
+ */
+function extractTitle(content: string, slug: string): string {
+  const match = content.match(/^#\s+(.+)$/m)
+  return match ? match[1].trim() : slug
+}
+
+/**
+ * frontmatter의 created 값을 YYYY-MM-DD 문자열로 변환한다.
+ * gray-matter는 YYYY-MM-DD 형식의 값을 자동으로 Date 객체로 파싱하므로,
+ * Date 객체인 경우 문자열로 변환해야 한다.
+ */
+function formatCreated(value: unknown): string {
+  if (value instanceof Date) {
+    // Date 객체를 UTC 기준 YYYY-MM-DD로 변환
+    // (gray-matter가 파싱한 Date는 UTC 자정이므로 UTC 메서드 사용)
+    const year = value.getUTCFullYear()
+    const month = String(value.getUTCMonth() + 1).padStart(2, '0')
+    const day = String(value.getUTCDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
   }
-  return text.slice(0, maxLength).trim() + '...'
-}
-
-async function getArticle({
-  year, month, day, index,
-}: YearMonthDayIndex): Promise<Article> {
-  const dir = path.resolve(
-    BLOG_DIR,
-    year.toString(),
-    padTwo(month),
-    padTwo(day),
-    index.toString()
-  )
-  const file = (await fs.readdir(dir))[0]
-  const title = path.parse(file).name
-  const text = await fs.readFile(path.resolve(dir, file), 'utf8')
-  const content = await marked.parse(text)
-  const excerpt = createExcerpt(content)
-  return {
-    year,
-    month,
-    day,
-    index,
-    title,
-    content,
-    excerpt,
+  if (typeof value === 'string') {
+    return value
   }
+  return '1970-01-01'
 }
 
-async function getAllYearMonths(): Promise<YearMonth[]> {
-  const years = await getAllYears()
-  const months = (await Promise.all(
-    years.map(async (year) => (await getMonths({ year })).map((month) => ({ year, month }))),
-  ))
-  .flat()
-  return months
+/**
+ * vault 디렉토리를 재귀 스캔하여 모든 .md 파일 경로를 반환한다.
+ * Templates, .obsidian, Attachments, node_modules, .git 등은 제외.
+ */
+function scanVault(dir: string): string[] {
+  const EXCLUDE_DIRS = new Set([
+    'Templates', '.obsidian', 'Attachments', 'node_modules',
+    '.git', '.claude', 'Excalidraw', 'docs', 'private',
+  ])
+
+  const results: string[] = []
+
+  function walk(currentDir: string) {
+    const entries = fs.readdirSync(currentDir, { withFileTypes: true })
+    for (const entry of entries) {
+      if (entry.isDirectory()) {
+        if (!EXCLUDE_DIRS.has(entry.name)) {
+          walk(path.join(currentDir, entry.name))
+        }
+      } else if (entry.isFile() && entry.name.endsWith('.md')) {
+        results.push(path.join(currentDir, entry.name))
+      }
+    }
+  }
+
+  walk(dir)
+  return results
 }
 
-async function getAllYearMonthDays(): Promise<YearMonthDay[]> {
-  const yearMonths = await getAllYearMonths()
-  const days = (await Promise.all(
-    yearMonths.map(async (yearMonth) => (
-      await getDays(yearMonth))
-      .map((day) => ({ ...yearMonth, day }))),
-  )).flat()
-  return days
+/**
+ * publish: true인 모든 노트의 slug Set을 반환한다.
+ * wiki-link 변환 시 어떤 링크가 유효한지 판단하는 데 사용.
+ */
+function getPublishedSlugs(): Set<string> {
+  const files = scanVault(OBSIDIAN_DIR)
+  const slugs = new Set<string>()
+
+  for (const filePath of files) {
+    const raw = fs.readFileSync(filePath, 'utf-8')
+    const { data } = matter(raw)
+    if (data.publish === true) {
+      const slug = path.basename(filePath, '.md')
+      slugs.add(slug)
+    }
+  }
+
+  return slugs
 }
 
-async function getAllYearMonthDayIndices(): Promise<YearMonthDayIndex[]> {
-  const days = await getAllYearMonthDays()
-  const indices = (await Promise.all(
-    days
-    .map(async (day) => (await getIndices(day))
-      .map((index) => ({
-        ...day, index,
-      }))),
-  )).flat()
-  return indices
+/**
+ * publish: true인 모든 Article 목록을 반환한다.
+ * created 날짜 역순 정렬.
+ */
+export async function getAllArticles(): Promise<Article[]> {
+  const files = scanVault(OBSIDIAN_DIR)
+  const publishedSlugs = getPublishedSlugs()
+  const articles: Article[] = []
+
+  for (const filePath of files) {
+    const raw = fs.readFileSync(filePath, 'utf-8')
+    const { data } = matter(raw)
+
+    if (data.publish !== true) continue
+
+    const slug = path.basename(filePath, '.md')
+    const transformed = transformObsidianMarkdown(raw, publishedSlugs)
+    const html = await marked.parse(transformed)
+    const title = extractTitle(transformed, slug)
+
+    articles.push({
+      slug,
+      title,
+      created: formatCreated(data.created),
+      type: data.type ?? 'unknown',
+      tags: data.tags ?? [],
+      content: html,
+      excerpt: createExcerpt(html),
+    })
+  }
+
+  // created 날짜 역순 정렬
+  articles.sort((a, b) => b.created.localeCompare(a.created))
+  return articles
 }
 
-export interface Article {
-  year: number,
-  month: number,
-  day: number,
-  index: number,
-  title: string,
-  content: string,
-  excerpt: string  // SEO description에 사용할 요약
+/**
+ * slug로 특정 Article을 반환한다.
+ */
+export async function getArticle(slug: string): Promise<Article | null> {
+  const articles = await getAllArticles()
+  return articles.find((a) => a.slug === slug) ?? null
 }
 
-export interface YearMonth {
-  year: number,
-  month: number
+/**
+ * 모든 publish된 slug 목록을 반환한다. (getStaticPaths용)
+ */
+export async function getAllSlugs(): Promise<string[]> {
+  const articles = await getAllArticles()
+  return articles.map((a) => a.slug)
 }
-
-export interface YearMonthDay extends YearMonth {
-  day: number 
-}
-
-export interface YearMonthDayIndex extends YearMonthDay {
-  index: number
-}
-
-const Blog = {
-  getYears,
-  getMonths,
-  getDays,
-  getIndices,
-  getArticle,
-  getAllYears,
-  getAllYearMonths,
-  getAllYearMonthDays,
-  getAllYearMonthDayIndices,
-}
-
-export default Blog
