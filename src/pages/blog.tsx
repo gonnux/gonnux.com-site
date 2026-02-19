@@ -7,27 +7,18 @@ import type { GetStaticProps } from 'next'
 import type { NextLayoutPage } from '@/types/layout'
 
 export const getStaticProps: GetStaticProps = async () => {
-
-  const { default: blog } = await import('@/blog')
+  const { getAllArticles } = await import('@/blog')
   const { default: config } = await import('@/config')
-  const { load } = await import('cheerio')
 
-  const articles = (await Promise.all(
-    (await blog.getAllYearMonthDayIndices())
-      .map(async (index) => blog.getArticle(index)),
-  ))
-  .map((article) => ({
-    ...article,
-    content: load(article.content).text(),
-  }))
+  const articles = await getAllArticles()
 
   return {
     props: { site: config.site, articles },
-    revalidate: 3600, // ISR: regenerate every hour
+    revalidate: 3600,
   }
 }
 
-const BlogPage: NextLayoutPage<{ site: Site, articles: [Article]}> = (props) => {
+const BlogPage: NextLayoutPage<{ site: Site, articles: Article[] }> = (props) => {
   return (
     <>
       <SEO
