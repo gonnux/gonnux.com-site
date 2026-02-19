@@ -14,3 +14,9 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+/* Obsidian wiki-link: 비publish 노트 참조 스타일 */
+.wikilink-dead {
+  color: #999;
+  font-style: italic;
+}

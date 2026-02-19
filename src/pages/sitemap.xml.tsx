@@ -1,15 +1,12 @@
 import type { GetServerSideProps } from 'next'
-import Blog from '@/blog'
+import { getAllArticles } from '@/blog'
 import config from '@/config'
-import { padTwo } from '@/utils/date'
 
-// Empty component - XML is returned via getServerSideProps
 const Sitemap = () => null
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const siteUrl = config.site.url
 
-  // Static pages
   const staticPages = [
     { url: '/', priority: '1.0', changefreq: 'weekly' },
     { url: '/blog', priority: '0.8', changefreq: 'daily' },
@@ -18,22 +15,29 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
     { url: '/about', priority: '0.6', changefreq: 'monthly' },
   ]
 
-  // Dynamic blog posts
-  const allArticles = await Blog.getAllYearMonthDayIndices()
-  const blogPages = allArticles.map(({ year, month, day, index }) => ({
-    url: `/blog/${year}/${padTwo(month)}/${padTwo(day)}/${index}`,
+  // slug 기반 블로그 포스트 URL
+  const articles = await getAllArticles()
+  const blogPages = articles.map((article) => ({
+    url: `/blog/${article.slug}`,
     priority: '0.6',
-    changefreq: 'never',
+    changefreq: 'never' as const,
   }))
 
-  // Project pages
+  // 연도별 아카이브 페이지
+  const years = [...new Set(articles.map((a) => a.created.slice(0, 4)))]
+  const archivePages = years.map((year) => ({
+    url: `/blog/archive/${year}`,
+    priority: '0.4',
+    changefreq: 'monthly' as const,
+  }))
+
   const projectPages = config.projects.map((project) => ({
     url: `/projects/${project.name}`,
     priority: '0.5',
-    changefreq: 'monthly',
+    changefreq: 'monthly' as const,
   }))
 
-  const allPages = [...staticPages, ...blogPages, ...projectPages]
+  const allPages = [...staticPages, ...blogPages, ...archivePages, ...projectPages]
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

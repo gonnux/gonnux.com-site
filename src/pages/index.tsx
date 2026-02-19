@@ -12,27 +12,16 @@ import type { NextLayoutPage } from '@/types/layout'
 import type { App, Project, Site } from '@/config'
 
 export const getStaticProps: GetStaticProps = async() => {
-
-  const { default: blog } = await import('@/blog')
-  const { load } = await import('cheerio')
+  const { getAllArticles } = await import('@/blog')
   const { default: config } = await import('@/config')
 
-  const articles = (
-    await Promise.all(
-      (await blog.getAllYearMonthDayIndices())
-      .map(async (index) => blog.getArticle(index)),
-    )
-  )
-  .map((article) => ({
-    ...article,
-    content: load(article.content).text(),
-  }))
-
+  // 최신 5개만 홈페이지에 표시
+  const articles = (await getAllArticles()).slice(0, 5)
   const { site, apps, projects } = config
 
   return {
     props: { site, articles, apps, projects },
-    revalidate: 3600, // ISR: regenerate every hour
+    revalidate: 3600,
   }
 }
 
