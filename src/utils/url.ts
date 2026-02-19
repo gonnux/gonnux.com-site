@@ -1,6 +1,6 @@
-import type { Article, YearMonthDayIndex } from '@/blog'
+import type { Article } from '@/blog'
 
-// 게시글 URL 생성 - 일관된 URL 형식 보장
-export function getArticleUrl(article: Article | YearMonthDayIndex): string {
-  return `/blog/${article.year}/${article.month}/${article.day}/${article.index}`
+// 게시글 URL 생성 - slug 기반
+export function getArticleUrl(article: Article): string {
+  return `/blog/${article.slug}`
 }
