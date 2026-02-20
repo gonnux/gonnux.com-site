@@ -1,4 +1,7 @@
-/* Tailwind v4 - preflight 제외 (MUI CssBaseline과 충돌 방지) */
+/* Tailwind v4 - preflight 포함 (MUI CssBaseline과 충돌 없음)
+   typography 플러그인이 preflight의 border-style/border-collapse에 의존하므로,
+   preflight를 제외하면 테이블 border가 보이지 않는 문제가 발생한다. */
+@import "tailwindcss/preflight" layer(base);
 @import "tailwindcss/theme";
 @import "tailwindcss/utilities";
 
