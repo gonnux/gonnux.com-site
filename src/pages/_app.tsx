@@ -6,7 +6,7 @@ import Script from 'next/script'
 import { ColorModeProvider, useColorMode } from '@/contexts/ColorModeContext'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import '@/styles/globals.css'
-import 'highlight.js/styles/default.css'
+import 'highlight.js/styles/github-dark-dimmed.css'
 
 type AppPropsWithLayout = AppProps & {
   Component: AppProps['Component'] & {

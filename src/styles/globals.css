@@ -2,6 +2,9 @@
 @import "tailwindcss/theme";
 @import "tailwindcss/utilities";
 
+/* prose 클래스로 마크다운 타이포그래피 스타일 적용 */
+@plugin "@tailwindcss/typography";
+
 /* next-themes의 class="dark"에 맞춘 다크모드 variant */
 @custom-variant dark (&:where(.dark, .dark *));
 
