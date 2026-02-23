@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "eslint src/ && next build",
+    "build": "eslint src/ && node scripts/generate-sitemap.js && next build",
     "start": "next start",
     "lint": "eslint src/",
     "test": "playwright test",

@@ -40,5 +40,6 @@ yarn-error.log*
 # Playwright
 .playwright-mcp/
 
-# Obsidian attachments (copied at build time)
+# Build-time generated files
 /public/attachments/
+/public/sitemap.xml
