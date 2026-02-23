@@ -2,7 +2,9 @@ import type { GetStaticPaths, GetStaticProps } from 'next'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
+import Divider from '@mui/material/Divider'
 import parse from 'html-react-parser'
+import { DiscussionEmbed } from 'disqus-react'
 import Layout from '@/components/Layout'
 import SEO from '@/components/SEO'
 import type { Article } from '@/blog'
@@ -43,6 +45,13 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 const PRIMARY_TAGS = new Set(['literature', 'permanent', 'reference', 'auxiliary', 'fleeting'])
 
 const ArticlePage: NextLayoutPage<Props> = ({ site, article }) => {
+  const disqusShortName = process.env.NEXT_PUBLIC_DISQUS_SHORTNAME
+  const disqusConfig = {
+    url: `https://gonnux.com/blog/${article.slug}`,
+    identifier: article.slug,
+    title: article.title,
+  }
+
   return (
     <>
       <SEO
@@ -71,6 +80,13 @@ const ArticlePage: NextLayoutPage<Props> = ({ site, article }) => {
           {parse(article.content)}
         </Box>
       </article>
+      <Divider sx={{ my: 4 }} />
+      {disqusShortName && (
+        <DiscussionEmbed
+          shortname={disqusShortName}
+          config={disqusConfig}
+        />
+      )}
     </>
   )
 }
