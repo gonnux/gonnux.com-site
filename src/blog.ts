@@ -159,6 +159,22 @@ export async function getAllArticles(): Promise<Article[]> {
   return articles
 }
 
+// 블로그 목록 페이지네이션 설정
+export const ARTICLES_PER_PAGE = 10
+
+/**
+ * 전체 Article 목록에서 특정 페이지의 articles와 페이지 정보를 반환한다.
+ */
+export function paginateArticles(articles: Article[], page: number) {
+  const totalPages = Math.ceil(articles.length / ARTICLES_PER_PAGE)
+  const start = (page - 1) * ARTICLES_PER_PAGE
+  return {
+    articles: articles.slice(start, start + ARTICLES_PER_PAGE),
+    totalPages,
+    currentPage: page,
+  }
+}
+
 /**
  * slug로 특정 Article을 반환한다.
  */

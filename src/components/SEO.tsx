@@ -13,6 +13,11 @@ interface SEOProps {
     publishedTime: string
     author?: string
   }
+  // 페이지네이션 시 크롤러에게 이전/다음 페이지 힌트 제공
+  pagination?: {
+    prev?: string
+    next?: string
+  }
   noindex?: boolean
 }
 
@@ -25,6 +30,7 @@ const SEO: FC<SEOProps> = ({
   ogImage,
   ogType = 'website',
   article,
+  pagination,
   noindex = false,
 }) => {
   const fullTitle = title ? `${title} | ${site.name}` : site.name
@@ -38,6 +44,10 @@ const SEO: FC<SEOProps> = ({
       <meta name="description" content={metaDescription} />
       {noindex && <meta name="robots" content="noindex, nofollow" />}
       {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+
+      {/* 페이지네이션: 크롤러에게 이전/다음 페이지 힌트 제공 */}
+      {pagination?.prev && <link rel="prev" href={`${site.url}${pagination.prev}`} />}
+      {pagination?.next && <link rel="next" href={`${site.url}${pagination.next}`} />}
 
       {/* Open Graph tags for social media sharing */}
       <meta property="og:site_name" content={site.name} />
