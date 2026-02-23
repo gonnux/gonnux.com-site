@@ -1,3 +1,4 @@
+import Typography from '@mui/material/Typography'
 import parse from 'html-react-parser'
 import Layout from '@/components/Layout'
 import SEO from '@/components/SEO'
@@ -36,6 +37,7 @@ const AboutPage: NextLayoutPage<{ site: Site, about: string }> = (props) => {
         description="gonnux에 대해서 - 개발자 소개 및 프로필"
         canonical="/about"
       />
+      <Typography variant="h4" component="h1" gutterBottom>About</Typography>
       {parse(props.about)}
     </>
   )

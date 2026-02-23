@@ -51,7 +51,7 @@ const ArticlePage: NextLayoutPage<Props> = ({ site, article }) => {
         description={article.excerpt}
         ogType="article"
         article={{ publishedTime: article.created, author: site.author }}
-        canonical={`${site.url}/blog/${article.slug}`}
+        canonical={`/blog/${article.slug}`}
       />
       <article>
         <Typography variant="h4" component="h1" gutterBottom>

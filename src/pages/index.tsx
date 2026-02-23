@@ -29,6 +29,8 @@ const IndexPage: NextLayoutPage<{ site: Site, articles: Article[], apps: App[], 
   return (
     <>
       <SEO site={props.site} canonical="/" />
+      {/* SEO: 페이지당 H1 하나 필요. 기존 레이아웃을 해치지 않도록 sr-only로 숨김 */}
+      <Typography variant="h1" className="sr-only">gonnux.com - Apps, Projects &amp; Blog</Typography>
       <Box component="section">
         <Box component="header">
           <Typography variant="h5">Apps</Typography>

@@ -1,3 +1,4 @@
+import Typography from '@mui/material/Typography'
 import ArticleList from '@/components/ArticleList'
 import Layout from '@/components/Layout'
 import SEO from '@/components/SEO'
@@ -27,6 +28,7 @@ const BlogPage: NextLayoutPage<{ site: Site, articles: Article[] }> = (props) =>
         description="gonnux의 기술 블로그 - 개발, 프로그래밍 관련 글"
         canonical="/blog"
       />
+      <Typography variant="h4" component="h1" gutterBottom>Blog</Typography>
       <ArticleList articles={props.articles} />
     </>
   )
