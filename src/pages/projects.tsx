@@ -12,7 +12,6 @@ export const getStaticProps: GetStaticProps = async() => {
 
   return {
     props: { site, projects },
-    revalidate: 3600, // ISR: regenerate every hour
   }
 }
 

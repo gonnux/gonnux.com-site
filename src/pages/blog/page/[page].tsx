@@ -49,7 +49,6 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 
   return {
     props: { site: config.site, articles, currentPage, totalPages },
-    revalidate: 3600,
   }
 }
 

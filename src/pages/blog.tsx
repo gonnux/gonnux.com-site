@@ -23,7 +23,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
   return {
     props: { site: config.site, articles, totalPages },
-    revalidate: 3600,
   }
 }
 

@@ -37,7 +37,6 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 
   return {
     props: { site: config.site, year, articles },
-    revalidate: 3600,
   }
 }
 

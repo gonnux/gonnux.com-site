@@ -21,7 +21,6 @@ export const getStaticProps: GetStaticProps = async() => {
 
   return {
     props: { site, articles, apps, projects },
-    revalidate: 3600,
   }
 }
 

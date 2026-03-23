@@ -38,13 +38,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     return {
       props: { site, project, markdown },
-      revalidate: 3600, // ISR: regenerate every hour
     }
   } catch (error) {
     console.error(`Failed to fetch readme for project ${project!.name}:`, error)
     return {
       props: { site, project, markdown: '<p>Failed to load README.</p>' },
-      revalidate: 60, // Retry sooner on error
     }
   }
 }
